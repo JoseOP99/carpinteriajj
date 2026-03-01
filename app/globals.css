@@ -1,0 +1,105 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-cormorant: 'Cormorant Garamond', serif;
+  --font-dm-sans: 'DM Sans', sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-dm-sans), sans-serif;
+  background-color: #F5F5F7;
+  color: #3D2B1F;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@layer base {
+  h1, h2, h3, h4 {
+    font-family: var(--font-cormorant), serif;
+  }
+}
+
+@layer components {
+  .btn-whatsapp {
+    @apply inline-flex items-center gap-3 bg-green-500 hover:bg-green-600 text-white font-body font-medium px-6 py-3 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-lg;
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center gap-2 border border-current text-current px-6 py-3 rounded-lg transition-all duration-300 hover:bg-white/10;
+  }
+
+  .section-badge {
+    @apply inline-flex items-center gap-2 text-sm font-body font-medium tracking-widest uppercase text-gold border border-gold/40 rounded-full px-4 py-1.5;
+  }
+
+  .glass-header {
+    @apply backdrop-blur-lg bg-cream/85 border-b border-wood/10 shadow-sm;
+  }
+
+  .card-service {
+    @apply bg-white rounded-xl border border-cream-dark p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl cursor-default;
+  }
+
+  .text-gradient-wood {
+    @apply bg-gradient-to-r from-wood-warm via-gold to-gold-light bg-clip-text text-transparent;
+  }
+}
+
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .wood-texture {
+    background-image: repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 2px,
+      rgba(196, 132, 58, 0.03) 2px,
+      rgba(196, 132, 58, 0.03) 4px
+    );
+  }
+
+  .focus-ring {
+    @apply focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2;
+  }
+}
+
+/* Animaciones de scroll reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Overlay de galería */
+.gallery-overlay {
+  @apply absolute inset-0 bg-wood/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4;
+}
+
+/* Línea decorativa dorada */
+.gold-line::before {
+  content: '';
+  display: block;
+  width: 48px;
+  height: 3px;
+  background: linear-gradient(90deg, #C4843A, #D4A060);
+  border-radius: 2px;
+  margin-bottom: 16px;
+}
