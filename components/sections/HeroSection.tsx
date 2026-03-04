@@ -41,8 +41,8 @@ export default function HeroSection() {
         >
             {/* Background Image */}
             <Image
-                src="/Fondo.png"
-                alt="Taller de Carpintería JJ en Medellín"
+                src="/hero-bg.png"
+                alt="Cocina integral de lujo fabricada a medida por Carpintería JJ en Medellín, Colombia"
                 fill
                 priority
                 className="object-cover object-center"

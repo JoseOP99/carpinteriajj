@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Cormorant_Garamond, DM_Sans } from 'next/font/google'
 import './globals.css'
 import { SEO } from '@/lib/constants'
+import JsonLd from '@/components/ui/JsonLd'
 
 const cormorant = Cormorant_Garamond({
     subsets: ['latin'],
@@ -36,7 +37,7 @@ export const metadata: Metadata = {
         title: 'Carpintería JJ | Muebles a Medida en Medellín',
         description: SEO.description,
         siteName: 'Carpintería JJ',
-        images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Carpintería JJ Medellín' }],
+        images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Carpintería JJ – Muebles a medida en Medellín, Colombia' }],
         url: SEO.url,
     },
     alternates: { canonical: SEO.url },
@@ -57,6 +58,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
         <html lang="es" className={`${cormorant.variable} ${dmSans.variable} scroll-smooth`}>
+            <head>
+                <JsonLd />
+            </head>
             <body className="font-body bg-cream text-wood antialiased">{children}</body>
         </html>
     )

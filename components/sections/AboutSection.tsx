@@ -2,6 +2,7 @@
 
 import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
+import Image from 'next/image'
 import { CheckCircle, Award, Hammer } from 'lucide-react'
 import { COMPANY_INFO } from '@/lib/constants'
 
@@ -112,14 +113,18 @@ export default function AboutSection() {
                         transition={{ duration: 0.7, delay: 0.3 }}
                         className="order-1 lg:order-2 relative"
                     >
-                        {/* Imagen placeholder de taller */}
-                        <div className="relative rounded-2xl overflow-hidden aspect-[4/3] bg-gradient-to-br from-wood-light via-wood to-wood-dark shadow-2xl">
-                            <div className="absolute inset-0 flex flex-col items-center justify-center text-cream/30">
-                                <Hammer size={64} className="mb-3" />
-                                <p className="font-body text-sm">Foto del taller</p>
-                            </div>
+                        {/* Imagen real del taller con next/image */}
+                        <div className="relative rounded-2xl overflow-hidden aspect-[4/3] shadow-2xl">
+                            <Image
+                                src="/taller.png"
+                                alt="José Ortiz, maestro ebanista de Carpintería JJ en su taller de Medellín"
+                                fill
+                                className="object-cover object-center"
+                                sizes="(max-width: 1024px) 100vw, 45vw"
+                                quality={85}
+                            />
                             {/* Overlay decorativo */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-wood-dark/40 to-transparent" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-wood-dark/50 to-transparent" />
                         </div>
 
                         {/* Card flotante inferior-izquierda: 25+ años */}

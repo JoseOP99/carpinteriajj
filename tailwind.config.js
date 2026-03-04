@@ -20,6 +20,7 @@ module.exports = {
                 },
                 wood: {
                     DEFAULT: '#3D2B1F',
+                    dark: '#1E1510',
                     light: '#6B4C3B',
                     mid: '#8B6355',
                     warm: '#C4843A',

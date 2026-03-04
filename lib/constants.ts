@@ -38,7 +38,7 @@ export const SEO = {
     description:
         'Especialistas en cocinas integrales, closets personalizados, puertas y muebles a medida en Medellín. Madera sólida, MDF y aglomerados de alta calidad. +25 años de experiencia.',
     keywords:
-        'carpinteria, carpinteria medellin, cocina, closet, puertas, muebles a medida, cocinas integrales, carpintero medellin',
+        'carpintería en Medellín, ebanistería El Poblado, muebles a medida Envigado, cocinas integrales Medellín, closets personalizados Medellín, puertas de madera sólida, carpintero Manrique Medellín, muebles a medida Laureles, ebanistería de autor Colombia, carpintería artesanal Antioquia',
     url: 'https://carpinteriajj.com',
 } as const
 
