@@ -55,13 +55,20 @@ export const metadata: Metadata = {
  *
  * @param children - Elementos React que serán renderizados, típicamente `page.tsx`.
  */
+import DynamicBackground from '@/components/layout/DynamicBackground'
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
         <html lang="es" className={`${cormorant.variable} ${dmSans.variable} scroll-smooth`}>
             <head>
                 <JsonLd />
             </head>
-            <body className="font-body bg-cream text-wood antialiased">{children}</body>
+            <body className="font-body bg-cream text-wood antialiased selection:bg-gold/30 selection:text-gold">
+                <DynamicBackground />
+                <div className="relative z-10">
+                    {children}
+                </div>
+            </body>
         </html>
     )
 }

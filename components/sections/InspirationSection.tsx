@@ -61,7 +61,7 @@ function InspirationCard({ article, onOpen, index }: InspirationCardProps) {
 
             {/* Contenido */}
             <div className="p-6">
-                <h3 className="font-display text-xl font-bold text-wood mb-3 leading-tight group-hover:text-gold-dark transition-colors duration-300">
+                <h3 className="font-display text-xl font-bold text-wood mb-3 leading-tight group-hover:text-gold transition-colors duration-300">
                     {article.title}
                 </h3>
                 <p className="font-body text-sm text-wood/65 leading-relaxed mb-4">{article.summary}</p>
@@ -69,10 +69,10 @@ function InspirationCard({ article, onOpen, index }: InspirationCardProps) {
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-1.5">
                         <Tag size={13} style={{ color: article.accentColor }} aria-hidden="true" />
-                        <span className="font-body text-xs text-wood/50">{article.tag}</span>
+                        <span className="font-body text-xs text-cream/50">{article.tag}</span>
                     </div>
                     <div className="flex items-center gap-1.5">
-                        <Clock size={13} className="text-wood/40" aria-hidden="true" />
+                        <Clock size={13} className="text-cream/40" aria-hidden="true" />
                         <span className="font-body text-xs text-wood/50">{article.readTime}</span>
                     </div>
                 </div>
@@ -137,7 +137,7 @@ function InspirationModal({ article, onClose }: InspirationModalProps) {
                         animate={{ scale: 1, opacity: 1 }}
                         exit={{ scale: 0.92, opacity: 0 }}
                         transition={{ type: 'spring', stiffness: 300, damping: 26 }}
-                        className="relative z-10 bg-cream rounded-2xl max-w-2xl w-full max-h-[85vh] overflow-y-auto shadow-2xl"
+                        className="relative z-10 bg-white rounded-2xl max-w-2xl w-full max-h-[85vh] overflow-y-auto shadow-2xl"
                     >
                         {/* Header */}
                         <div
@@ -162,7 +162,7 @@ function InspirationModal({ article, onClose }: InspirationModalProps) {
                         {/* Contenido (renderizado como texto pre-formateado) */}
                         <div className="px-8 pb-8">
                             <div
-                                className="font-body text-sm text-wood/75 leading-relaxed space-y-4"
+                                className="font-body text-sm text-cream/75 leading-relaxed space-y-4"
                                 dangerouslySetInnerHTML={{
                                     __html: article.content
                                         .replace(/\*\*(.*?)\*\*/g, '<strong class="text-wood font-semibold">$1</strong>')

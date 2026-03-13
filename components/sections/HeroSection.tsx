@@ -39,28 +39,10 @@ export default function HeroSection() {
             className="relative min-h-screen flex flex-col justify-end overflow-hidden pb-16 md:pb-24 pt-32"
             aria-label="Sección principal de Carpintería JJ"
         >
-            {/* Background Image */}
-            <Image
-                src="/hero-bg.png"
-                alt="Cocina integral de lujo fabricada a medida por Carpintería JJ en Medellín, Colombia"
-                fill
-                priority
-                className="object-cover object-center"
-                sizes="100vw"
-            />
-
-            {/* Overlay Extra Oscuro */}
-            <div className="absolute inset-0 bg-black/80" />
-
-            {/* Textura vertical sutil */}
-            <div
-                className="absolute inset-0 wood-texture opacity-40 mix-blend-overlay"
-                style={{
-                    backgroundImage:
-                        'repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(196,132,58,0.04) 2px, rgba(196,132,58,0.04) 4px)',
-                }}
-                aria-hidden="true"
-            />
+            {/* El fondo dinámico ya se renderiza en RootLayout */}
+            
+            {/* Overlay sutil para legibilidad en el inicio */}
+            <div className="absolute inset-0 bg-black/20" />
 
             {/* Contenido */}
             <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

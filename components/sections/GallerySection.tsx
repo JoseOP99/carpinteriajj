@@ -34,44 +34,47 @@ function GalleryCard({ project, onOpen, index }: GalleryCardProps) {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, margin: '-40px' }}
             transition={{ duration: 0.5, delay: (index % 4) * 0.08 }}
-            className="relative group aspect-square rounded-xl overflow-hidden cursor-pointer shadow-md hover:shadow-2xl transition-shadow duration-300"
+            className="relative group aspect-square rounded-xl overflow-hidden cursor-pointer shadow-md hover:shadow-2xl transition-shadow duration-300 bg-wood/5"
             onClick={handleOpen}
             onKeyDown={(e) => e.key === 'Enter' && handleOpen()}
             tabIndex={0}
             role="button"
             aria-label={`Ver proyecto: ${project.title}`}
         >
-            {/* Imagen placeholder con gradiente */}
-            <div
-                className="absolute inset-0"
-                style={{
-                    background: `linear-gradient(135deg, ${project.gradientFrom}, ${project.gradientTo})`,
-                }}
-            />
+            {/* Imagen del proyecto */}
+            {project.imageUrl ? (
+                <img
+                    src={project.imageUrl}
+                    alt={project.title}
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+            ) : (
+                <div
+                    className="absolute inset-0"
+                    style={{
+                        background: `linear-gradient(135deg, ${project.gradientFrom}, ${project.gradientTo})`,
+                    }}
+                />
+            )}
 
-            {/* Patrón de madera */}
-            <div
-                className="absolute inset-0 opacity-20"
-                style={{
-                    backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 20px, rgba(255,255,255,0.05) 20px, rgba(255,255,255,0.05) 21px)',
-                }}
-                aria-hidden="true"
-            />
+            {/* Overlay sutil (gradiente inferior) */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
             {/* Badge de categoría */}
-            <span className="absolute top-3 left-3 z-10 font-body text-xs font-semibold capitalize bg-black/50 text-cream/90 px-3 py-1.5 rounded-full backdrop-blur-sm shadow-sm">
+            <span className="absolute top-3 left-3 z-10 font-body text-[10px] uppercase tracking-wider font-bold bg-white/90 text-wood px-2.5 py-1 rounded-sm backdrop-blur-sm shadow-sm group-hover:bg-gold group-hover:text-white transition-colors duration-300">
                 {project.category}
             </span>
 
-            {/* Overlay hover */}
-            <div className="gallery-overlay group-hover:opacity-100 transition-all duration-300">
-                <div className="flex flex-col gap-1">
-                    <h3 className="font-display text-base font-bold text-cream leading-tight">{project.title}</h3>
-                    <p className="font-body text-xs text-cream/70">{project.material} · {project.year}</p>
+            {/* Icono de zoom centrado */}
+            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 transform scale-90 group-hover:scale-100">
+                <div className="bg-white/20 backdrop-blur-md p-3 rounded-full border border-white/30">
+                    <ZoomIn size={24} className="text-white" aria-hidden="true" />
                 </div>
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                    <ZoomIn size={32} className="text-white/80" aria-hidden="true" />
-                </div>
+            </div>
+
+            {/* Info inferior rápida al hacer hover */}
+            <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+                <h3 className="font-display text-sm font-bold text-white leading-tight">{project.title}</h3>
             </div>
         </motion.article>
     )
@@ -119,103 +122,77 @@ function GalleryModal({ project, onClose, onPrev, onNext }: GalleryModalProps) {
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.3 }}
-                    className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+                    className="fixed inset-0 z-[100] flex items-center justify-center p-2 md:p-10"
                     role="dialog"
                     aria-modal="true"
                     aria-label={`Detalle del proyecto: ${project.title}`}
                 >
-                    {/* Backdrop */}
+                    {/* Backdrop blanco traslúcido (Glassmorphism claro) */}
                     <div
-                        className="absolute inset-0 bg-wood-dark/90 backdrop-blur-sm"
+                        className="absolute inset-0 bg-white/90 backdrop-blur-xl"
                         onClick={onClose}
                         aria-hidden="true"
                     />
 
-                    {/* Panel */}
+                    {/* Contenedor de la imagen expandida */}
                     <motion.div
-                        initial={{ scale: 0.9, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        exit={{ scale: 0.9, opacity: 0 }}
+                        initial={{ scale: 0.9, opacity: 0, y: 20 }}
+                        animate={{ scale: 1, opacity: 1, y: 0 }}
+                        exit={{ scale: 0.9, opacity: 0, y: 20 }}
                         transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-                        className="relative z-10 bg-cream rounded-2xl overflow-hidden max-w-4xl w-full max-h-[90vh] flex flex-col md:flex-row shadow-2xl"
+                        className="relative z-10 w-full max-w-6xl max-h-full flex flex-col items-center justify-center"
                     >
-                        {/* Imagen 60% */}
-                        <div
-                            className="md:w-3/5 min-h-48 md:min-h-0"
-                            style={{
-                                background: `linear-gradient(135deg, ${project.gradientFrom}, ${project.gradientTo})`,
-                            }}
-                        >
-                            <div className="w-full h-full min-h-[300px] md:min-h-full flex items-center justify-center">
-                                <div className="text-white/20 text-center">
-                                    <Package size={64} className="mx-auto mb-2" />
-                                    <p className="font-body text-sm">Foto del proyecto</p>
+                        <div className="relative group w-full flex items-center justify-center">
+                            {project.imageUrl ? (
+                                <img
+                                    src={project.imageUrl}
+                                    alt={project.title}
+                                    className="max-w-full max-h-[80vh] object-contain shadow-2xl rounded-lg"
+                                />
+                            ) : (
+                                <div
+                                    className="w-full h-96 md:h-[600px] flex items-center justify-center rounded-lg"
+                                    style={{
+                                        background: `linear-gradient(135deg, ${project.gradientFrom}, ${project.gradientTo})`,
+                                    }}
+                                >
+                                    <Package size={80} className="text-white/20" />
                                 </div>
-                            </div>
-                        </div>
+                            )}
 
-                        {/* Info 40% */}
-                        <div className="md:w-2/5 p-6 md:p-8 flex flex-col justify-between overflow-y-auto">
-                            <div>
-                                <span className="font-body text-xs font-semibold capitalize text-gold bg-gold/10 px-3 py-1.5 rounded-full">
+                            {/* Info de categoría resaltada */}
+                            <div className="absolute bottom-[-70px] left-0 right-0 text-center">
+                                <span className="inline-block font-body text-xs font-bold uppercase tracking-[0.2em] text-gold mb-1">Proyecto</span>
+                                <h2 className="font-display text-3xl md:text-4xl font-black capitalize text-wood tracking-tight">
                                     {project.category}
-                                </span>
-                                <h2 className="font-display text-2xl md:text-3xl font-bold text-wood mt-4 mb-3">
-                                    {project.title}
                                 </h2>
-                                <p className="font-body text-sm text-wood/70 leading-relaxed mb-6">{project.description}</p>
-
-                                <div className="space-y-3">
-                                    <div className="flex items-center gap-2.5">
-                                        <Package size={16} className="text-gold flex-shrink-0" aria-hidden="true" />
-                                        <span className="font-body text-sm text-wood/70">{project.material}</span>
-                                    </div>
-                                    <div className="flex items-center gap-2.5">
-                                        <Calendar size={16} className="text-gold flex-shrink-0" aria-hidden="true" />
-                                        <span className="font-body text-sm text-wood/70">{project.year}</span>
-                                    </div>
-                                    <div className="flex items-center gap-2.5">
-                                        <MapPin size={16} className="text-gold flex-shrink-0" aria-hidden="true" />
-                                        <span className="font-body text-sm text-wood/70">{project.location}</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Navegar */}
-                            <div className="flex gap-3 mt-6 pt-6 border-t border-cream-dark">
-                                <button onClick={onPrev} className="flex-1 flex items-center justify-center gap-2 border border-wood/20 text-wood py-2.5 rounded-lg hover:bg-wood/5 transition-colors focus-ring font-body text-sm" aria-label="Proyecto anterior">
-                                    <ChevronLeft size={16} /> Anterior
-                                </button>
-                                <button onClick={onNext} className="flex-1 flex items-center justify-center gap-2 border border-wood/20 text-wood py-2.5 rounded-lg hover:bg-wood/5 transition-colors focus-ring font-body text-sm" aria-label="Proyecto siguiente">
-                                    Siguiente <ChevronRight size={16} />
-                                </button>
                             </div>
                         </div>
-
-                        {/* Botón cerrar */}
-                        <button
-                            onClick={onClose}
-                            className="absolute top-4 right-4 w-9 h-9 bg-wood/80 hover:bg-wood text-cream rounded-full flex items-center justify-center transition-colors focus-ring z-10"
-                            aria-label="Cerrar modal"
-                        >
-                            <X size={18} />
-                        </button>
                     </motion.div>
 
-                    {/* Botones de navegación externos */}
+                    {/* Controles de navegación laterales flotantes */}
                     <button
                         onClick={onPrev}
-                        className="absolute left-4 top-1/2 -translate-y-1/2 w-11 h-11 bg-cream/10 hover:bg-cream/20 text-cream rounded-full flex items-center justify-center transition-colors focus-ring backdrop-blur-sm"
+                        className="absolute left-2 md:left-6 top-1/2 -translate-y-1/2 w-12 h-12 md:w-16 md:h-16 bg-wood/5 hover:bg-wood/10 text-wood rounded-full flex items-center justify-center transition-all focus-ring backdrop-blur-sm border border-wood/10 z-[110]"
                         aria-label="Proyecto anterior"
                     >
-                        <ChevronLeft size={22} />
+                        <ChevronLeft size={32} />
                     </button>
                     <button
                         onClick={onNext}
-                        className="absolute right-4 top-1/2 -translate-y-1/2 w-11 h-11 bg-cream/10 hover:bg-cream/20 text-cream rounded-full flex items-center justify-center transition-colors focus-ring backdrop-blur-sm"
+                        className="absolute right-2 md:right-6 top-1/2 -translate-y-1/2 w-12 h-12 md:w-16 md:h-16 bg-wood/5 hover:bg-wood/10 text-wood rounded-full flex items-center justify-center transition-all focus-ring backdrop-blur-sm border border-wood/10 z-[110]"
                         aria-label="Proyecto siguiente"
                     >
-                        <ChevronRight size={22} />
+                        <ChevronRight size={32} />
+                    </button>
+
+                    {/* Botón cerrar arriba derecha */}
+                    <button
+                        onClick={onClose}
+                        className="absolute top-4 right-4 md:top-8 md:right-8 w-12 h-12 bg-wood/5 hover:bg-wood/10 text-wood rounded-full flex items-center justify-center transition-all focus-ring z-[110] border border-wood/10"
+                        aria-label="Cerrar modal"
+                    >
+                        <X size={28} />
                     </button>
                 </motion.div>
             )}
