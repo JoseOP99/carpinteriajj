@@ -13,7 +13,7 @@ html {
 
 body {
   font-family: var(--font-dm-sans), sans-serif;
-  background-color: #F5F5F7;
+  background-color: #0a0a0a;
   color: #3D2B1F;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -27,23 +27,23 @@ body {
 
 @layer components {
   .btn-whatsapp {
-    @apply inline-flex items-center gap-3 bg-green-500 hover:bg-green-600 text-white font-body font-medium px-6 py-3 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-lg;
+    @apply inline-flex items-center gap-3 bg-green-500 hover:bg-green-600 text-white font-body font-semibold px-6 py-3 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-xl;
   }
 
   .btn-outline {
-    @apply inline-flex items-center gap-2 border border-current text-current px-6 py-3 rounded-lg transition-all duration-300 hover:bg-white/10;
+    @apply inline-flex items-center gap-2 border border-current text-current px-6 py-3 rounded-xl transition-all duration-300 hover:bg-white/10 font-body font-medium;
   }
 
   .section-badge {
-    @apply inline-flex items-center gap-2 text-sm font-body font-medium tracking-widest uppercase text-gold border border-gold/40 rounded-full px-4 py-1.5;
+    @apply inline-flex items-center gap-2 text-xs font-body font-semibold tracking-widest uppercase text-gold border border-gold/40 rounded-full px-4 py-1.5;
   }
 
   .glass-header {
-    @apply backdrop-blur-lg bg-cream/85 border-b border-wood/10 shadow-sm;
+    @apply backdrop-blur-xl bg-black/70 border-b border-white/10 shadow-xl;
   }
 
   .card-service {
-    @apply bg-white rounded-xl border border-cream-dark p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl cursor-default;
+    @apply bg-white rounded-2xl border border-cream-dark p-7 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl cursor-default;
   }
 
   .text-gradient-wood {
@@ -102,4 +102,21 @@ body {
   background: linear-gradient(90deg, #C4843A, #D4A060);
   border-radius: 2px;
   margin-bottom: 16px;
+}
+
+/* Shimmer animation para skeletons */
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0.03) 0%,
+    rgba(255,255,255,0.08) 50%,
+    rgba(255,255,255,0.03) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.8s ease-in-out infinite;
 }

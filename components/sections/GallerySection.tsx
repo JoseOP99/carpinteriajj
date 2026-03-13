@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useEffect, useRef } from 'react'
 import { motion, AnimatePresence, useInView } from 'framer-motion'
-import { ZoomIn, X, ChevronLeft, ChevronRight, MapPin, Calendar, Package } from 'lucide-react'
+import { ZoomIn, X, ChevronLeft, ChevronRight, Package } from 'lucide-react'
 import { GALLERY_PROJECTS, GALLERY_CATEGORIES, type GalleryCategory, type GalleryProject } from '@/data/gallery'
 
 interface GalleryCardProps {
@@ -13,68 +13,73 @@ interface GalleryCardProps {
 
 /**
  * `GalleryCard`
- *
- * Micro-componente que representa un proyecto individual en la grilla.
- * Al hacer hover muestra un overlay con información rápida (título, material, año)
- * e icono de ampliar.
- *
- * @component
- * @param {GalleryCardProps} props
- * @param {GalleryProject} props.project - Datos del proyecto a mostrar
- * @param {(p: GalleryProject) => void} props.onOpen - Callback al hacer clic
- * @param {number} props.index - Índice para el delay de la animación stagger
- * @returns React.JSX.Element
+ * Tarjeta individual de proyecto con skeleton oscuro mientras carga la imagen.
  */
 function GalleryCard({ project, onOpen, index }: GalleryCardProps) {
+    const [loaded, setLoaded] = useState(false)
     const handleOpen = useCallback(() => onOpen(project), [onOpen, project])
 
     return (
         <motion.article
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true, margin: '-40px' }}
-            transition={{ duration: 0.5, delay: (index % 4) * 0.08 }}
-            className="relative group aspect-square rounded-xl overflow-hidden cursor-pointer shadow-md hover:shadow-2xl transition-shadow duration-300 bg-wood/5"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-30px' }}
+            transition={{ duration: 0.45, delay: (index % 6) * 0.06, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className="relative group aspect-square rounded-2xl overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-400 bg-stone-800"
             onClick={handleOpen}
             onKeyDown={(e) => e.key === 'Enter' && handleOpen()}
             tabIndex={0}
             role="button"
             aria-label={`Ver proyecto: ${project.title}`}
         >
+            {/* Skeleton / placeholder oscuro */}
+            {!loaded && (
+                <div
+                    className="absolute inset-0"
+                    style={{ background: `linear-gradient(135deg, ${project.gradientFrom}99, ${project.gradientTo}bb)` }}
+                >
+                    <div className="absolute inset-0 shimmer opacity-40" />
+                </div>
+            )}
+
             {/* Imagen del proyecto */}
             {project.imageUrl ? (
                 <img
                     src={project.imageUrl}
                     alt={project.title}
-                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    loading="lazy"
+                    decoding="async"
+                    onLoad={() => setLoaded(true)}
+                    className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 group-hover:scale-110 ${
+                        loaded ? 'opacity-100' : 'opacity-0'
+                    }`}
                 />
             ) : (
                 <div
                     className="absolute inset-0"
-                    style={{
-                        background: `linear-gradient(135deg, ${project.gradientFrom}, ${project.gradientTo})`,
-                    }}
+                    style={{ background: `linear-gradient(135deg, ${project.gradientFrom}, ${project.gradientTo})` }}
                 />
             )}
 
-            {/* Overlay sutil (gradiente inferior) */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            {/* Overlay de hover: gradiente oscuro */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
             {/* Badge de categoría */}
-            <span className="absolute top-3 left-3 z-10 font-body text-[10px] uppercase tracking-wider font-bold bg-white/90 text-wood px-2.5 py-1 rounded-sm backdrop-blur-sm shadow-sm group-hover:bg-gold group-hover:text-white transition-colors duration-300">
+            <span className="absolute top-3 left-3 z-10 font-body text-[10px] uppercase tracking-wider font-bold bg-black/60 text-white px-2.5 py-1 rounded-md backdrop-blur-sm border border-white/10 shadow-sm group-hover:bg-gold group-hover:border-gold/0 transition-all duration-300">
                 {project.category}
             </span>
 
             {/* Icono de zoom centrado */}
-            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 transform scale-90 group-hover:scale-100">
-                <div className="bg-white/20 backdrop-blur-md p-3 rounded-full border border-white/30">
-                    <ZoomIn size={24} className="text-white" aria-hidden="true" />
+            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
+                <div className="bg-white/15 backdrop-blur-md p-4 rounded-full border border-white/25 shadow-xl transform scale-75 group-hover:scale-100 transition-transform duration-300">
+                    <ZoomIn size={22} className="text-white" aria-hidden="true" />
                 </div>
             </div>
 
-            {/* Info inferior rápida al hacer hover */}
-            <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
-                <h3 className="font-display text-sm font-bold text-white leading-tight">{project.title}</h3>
+            {/* Info inferior al hacer hover */}
+            <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-3 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 ease-out">
+                <h3 className="font-display text-sm font-bold text-white leading-tight drop-shadow-md">{project.title}</h3>
+                <p className="font-body text-xs text-white/70 mt-0.5">{project.material}</p>
             </div>
         </motion.article>
     )
@@ -89,16 +94,15 @@ interface GalleryModalProps {
 
 /**
  * `GalleryModal`
- *
- * Modal a pantalla completa (Lightbox) para visualizar un proyecto en detalle.
- * Incluye navegación de fotos (Prev/Next) y se cierra con Escape, clic fuera, o el botón [X].
- * Previene el scroll del cuerpo de la página mientras está activo.
- *
- * @component
- * @param {GalleryModalProps} props
- * @returns React.JSX.Element
+ * Lightbox oscuro y elegante para ver proyectos en detalle.
  */
 function GalleryModal({ project, onClose, onPrev, onNext }: GalleryModalProps) {
+    const [imgLoaded, setImgLoaded] = useState(false)
+
+    useEffect(() => {
+        setImgLoaded(false)
+    }, [project?.id])
+
     useEffect(() => {
         if (!project) return
         const handleKeyDown = (e: KeyboardEvent) => {
@@ -121,78 +125,88 @@ function GalleryModal({ project, onClose, onPrev, onNext }: GalleryModalProps) {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="fixed inset-0 z-[100] flex items-center justify-center p-2 md:p-10"
+                    transition={{ duration: 0.25 }}
+                    className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-10"
                     role="dialog"
                     aria-modal="true"
                     aria-label={`Detalle del proyecto: ${project.title}`}
                 >
-                    {/* Backdrop blanco traslúcido (Glassmorphism claro) */}
+                    {/* Backdrop oscuro semi-transparente */}
                     <div
-                        className="absolute inset-0 bg-white/90 backdrop-blur-xl"
+                        className="absolute inset-0 bg-black/90 backdrop-blur-sm"
                         onClick={onClose}
                         aria-hidden="true"
                     />
 
-                    {/* Contenedor de la imagen expandida */}
+                    {/* Contenedor imagen */}
                     <motion.div
-                        initial={{ scale: 0.9, opacity: 0, y: 20 }}
+                        initial={{ scale: 0.88, opacity: 0, y: 24 }}
                         animate={{ scale: 1, opacity: 1, y: 0 }}
-                        exit={{ scale: 0.9, opacity: 0, y: 20 }}
-                        transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-                        className="relative z-10 w-full max-w-6xl max-h-full flex flex-col items-center justify-center"
+                        exit={{ scale: 0.88, opacity: 0, y: 24 }}
+                        transition={{ type: 'spring', stiffness: 350, damping: 28 }}
+                        className="relative z-10 w-full max-w-5xl max-h-full flex flex-col items-center gap-6"
                     >
-                        <div className="relative group w-full flex items-center justify-center">
+                        <div className="relative w-full flex items-center justify-center">
+                            {/* Skeleton del modal */}
+                            {!imgLoaded && project.imageUrl && (
+                                <div className="w-full h-[60vh] rounded-2xl bg-neutral-800 animate-pulse flex items-center justify-center">
+                                    <Package size={48} className="text-white/10" />
+                                </div>
+                            )}
                             {project.imageUrl ? (
                                 <img
                                     src={project.imageUrl}
                                     alt={project.title}
-                                    className="max-w-full max-h-[80vh] object-contain shadow-2xl rounded-lg"
+                                    onLoad={() => setImgLoaded(true)}
+                                    className={`max-w-full max-h-[75vh] object-contain shadow-2xl rounded-2xl border border-white/10 transition-opacity duration-500 ${
+                                        imgLoaded ? 'opacity-100' : 'opacity-0 absolute'
+                                    }`}
                                 />
                             ) : (
                                 <div
-                                    className="w-full h-96 md:h-[600px] flex items-center justify-center rounded-lg"
-                                    style={{
-                                        background: `linear-gradient(135deg, ${project.gradientFrom}, ${project.gradientTo})`,
-                                    }}
+                                    className="w-full h-96 md:h-[500px] flex items-center justify-center rounded-2xl"
+                                    style={{ background: `linear-gradient(135deg, ${project.gradientFrom}, ${project.gradientTo})` }}
                                 >
-                                    <Package size={80} className="text-white/20" />
+                                    <Package size={72} className="text-white/20" />
                                 </div>
                             )}
+                        </div>
 
-                            {/* Info de categoría resaltada */}
-                            <div className="absolute bottom-[-70px] left-0 right-0 text-center">
-                                <span className="inline-block font-body text-xs font-bold uppercase tracking-[0.2em] text-gold mb-1">Proyecto</span>
-                                <h2 className="font-display text-3xl md:text-4xl font-black capitalize text-wood tracking-tight">
-                                    {project.category}
-                                </h2>
-                            </div>
+                        {/* Info del proyecto */}
+                        <div className="text-center">
+                            <span className="font-body text-xs font-bold uppercase tracking-[0.3em] text-gold">
+                                {project.category}
+                            </span>
+                            <h2 className="font-display text-3xl md:text-4xl font-bold text-white mt-1">
+                                {project.title}
+                            </h2>
+                            <p className="font-body text-sm text-white/50 mt-1">{project.material} · {project.location} · {project.year}</p>
                         </div>
                     </motion.div>
 
-                    {/* Controles de navegación laterales flotantes */}
+                    {/* Navegación lateral */}
                     <button
                         onClick={onPrev}
-                        className="absolute left-2 md:left-6 top-1/2 -translate-y-1/2 w-12 h-12 md:w-16 md:h-16 bg-wood/5 hover:bg-wood/10 text-wood rounded-full flex items-center justify-center transition-all focus-ring backdrop-blur-sm border border-wood/10 z-[110]"
+                        className="absolute left-2 md:left-6 top-1/2 -translate-y-1/2 w-12 h-12 md:w-14 md:h-14 bg-white/10 hover:bg-white/20 text-white rounded-full flex items-center justify-center transition-all backdrop-blur-sm border border-white/15 z-[110] shadow-xl"
                         aria-label="Proyecto anterior"
                     >
-                        <ChevronLeft size={32} />
+                        <ChevronLeft size={28} />
                     </button>
                     <button
                         onClick={onNext}
-                        className="absolute right-2 md:right-6 top-1/2 -translate-y-1/2 w-12 h-12 md:w-16 md:h-16 bg-wood/5 hover:bg-wood/10 text-wood rounded-full flex items-center justify-center transition-all focus-ring backdrop-blur-sm border border-wood/10 z-[110]"
+                        className="absolute right-2 md:right-6 top-1/2 -translate-y-1/2 w-12 h-12 md:w-14 md:h-14 bg-white/10 hover:bg-white/20 text-white rounded-full flex items-center justify-center transition-all backdrop-blur-sm border border-white/15 z-[110] shadow-xl"
                         aria-label="Proyecto siguiente"
                     >
-                        <ChevronRight size={32} />
+                        <ChevronRight size={28} />
                     </button>
 
-                    {/* Botón cerrar arriba derecha */}
+                    {/* Cerrar */}
                     <button
                         onClick={onClose}
-                        className="absolute top-4 right-4 md:top-8 md:right-8 w-12 h-12 bg-wood/5 hover:bg-wood/10 text-wood rounded-full flex items-center justify-center transition-all focus-ring z-[110] border border-wood/10"
+                        className="absolute top-4 right-4 md:top-6 md:right-6 w-11 h-11 bg-white/10 hover:bg-red-500/80 text-white rounded-full flex items-center justify-center transition-all backdrop-blur-sm border border-white/15 z-[110] shadow-xl"
                         aria-label="Cerrar modal"
                     >
-                        <X size={28} />
+                        <X size={22} />
                     </button>
                 </motion.div>
             )}
@@ -202,17 +216,12 @@ function GalleryModal({ project, onClose, onPrev, onNext }: GalleryModalProps) {
 
 /**
  * `GallerySection`
- *
- * Sección principal de Galería (Portafolio).
- * Mantiene el estado del filtro activo (Categorías) y maneja la transición animada
- * de la grilla usando `framer-motion` (AnimatePresence y Layout routing).
- *
- * @component
- * @returns React.JSX.Element
+ * Galería de proyectos con filtros de categoría, grid animado, y lightbox.
  */
 export default function GallerySection() {
     const [activeCategory, setActiveCategory] = useState<GalleryCategory>('todos')
     const [selectedProject, setSelectedProject] = useState<GalleryProject | null>(null)
+    const [showAll, setShowAll] = useState(false)
     const ref = useRef<HTMLDivElement>(null)
     const isInView = useInView(ref, { once: true, margin: '-80px' })
 
@@ -245,6 +254,7 @@ export default function GallerySection() {
 
     const handleCategoryChange = useCallback((cat: GalleryCategory) => {
         setActiveCategory(cat)
+        setShowAll(false)
         setSelectedProject(null)
     }, [])
 
@@ -254,7 +264,7 @@ export default function GallerySection() {
                 {/* Header */}
                 <motion.div
                     ref={ref}
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 24 }}
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
                     transition={{ duration: 0.6 }}
                     className="text-center mb-12"
@@ -264,7 +274,7 @@ export default function GallerySection() {
                         Galería de{' '}
                         <span className="text-gradient-wood">Proyectos</span>
                     </h2>
-                    <p className="font-body text-wood/60 max-w-xl mx-auto mt-4 text-base">
+                    <p className="font-body text-wood/60 max-w-xl mx-auto mt-4 text-base leading-relaxed">
                         Cada proyecto cuenta una historia. Explora nuestra selección de trabajos terminados.
                     </p>
                 </motion.div>
@@ -273,8 +283,8 @@ export default function GallerySection() {
                 <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ duration: 0.5, delay: 0.2 }}
-                    className="flex flex-wrap justify-center gap-3 mb-10"
+                    transition={{ duration: 0.5, delay: 0.15 }}
+                    className="flex flex-wrap justify-center gap-2 mb-10"
                     role="group"
                     aria-label="Filtros de categoría"
                 >
@@ -282,10 +292,11 @@ export default function GallerySection() {
                         <button
                             key={id}
                             onClick={() => handleCategoryChange(id)}
-                            className={`font-body text-sm font-medium px-5 py-2.5 rounded-full border transition-all duration-300 focus-ring ${activeCategory === id
-                                ? 'bg-wood text-cream border-wood shadow-md'
-                                : 'border-wood/30 text-wood/70 hover:border-wood hover:text-wood'
-                                }`}
+                            className={`font-body text-sm font-medium px-5 py-2.5 rounded-full border transition-all duration-300 focus-ring ${
+                                activeCategory === id
+                                    ? 'bg-wood text-cream border-wood shadow-lg shadow-wood/20'
+                                    : 'border-wood/25 text-wood/65 hover:border-wood hover:text-wood bg-white/60 backdrop-blur-sm'
+                            }`}
                             aria-pressed={activeCategory === id}
                         >
                             {label}
@@ -293,13 +304,23 @@ export default function GallerySection() {
                     ))}
                 </motion.div>
 
+                {/* Contador */}
+                <motion.p
+                    initial={{ opacity: 0 }}
+                    animate={isInView ? { opacity: 1 } : {}}
+                    transition={{ duration: 0.4, delay: 0.25 }}
+                    className="text-center font-body text-xs text-wood/40 mb-6 uppercase tracking-widest"
+                >
+                    {filteredProjects.length} proyecto{filteredProjects.length !== 1 ? 's' : ''}
+                </motion.p>
+
                 {/* Grid de proyectos */}
                 <motion.div
-                    className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+                    className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4"
                     layout
                 >
                     <AnimatePresence mode="popLayout">
-                        {filteredProjects.map((project, index) => (
+                        {filteredProjects.slice(0, showAll ? undefined : 16).map((project, index) => (
                             <GalleryCard
                                 key={project.id}
                                 project={project}
@@ -309,6 +330,23 @@ export default function GallerySection() {
                         ))}
                     </AnimatePresence>
                 </motion.div>
+
+                {/* Botón Ver Más */}
+                {filteredProjects.length > 16 && !showAll && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 12 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.3 }}
+                        className="flex justify-center mt-12"
+                    >
+                        <button
+                            onClick={() => setShowAll(true)}
+                            className="font-body font-semibold text-sm px-10 py-4 rounded-full border-2 border-wood text-wood hover:bg-wood hover:text-cream transition-all duration-300 shadow-sm hover:shadow-lg hover:shadow-wood/20"
+                        >
+                            Ver {filteredProjects.length - 16} proyectos más
+                        </button>
+                    </motion.div>
+                )}
             </div>
 
             {/* Modal */}

@@ -41,7 +41,7 @@ export default function Header() {
 
     return (
         <header
-            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled ? 'bg-cream/95 backdrop-blur-md shadow-lg border-b border-wood/10' : 'bg-transparent border-t-0 border-transparent'
+            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled ? 'bg-black/85 backdrop-blur-xl shadow-xl border-b border-white/10' : 'bg-transparent'
                 }`}
             role="banner"
         >
@@ -58,7 +58,7 @@ export default function Header() {
                             priority
                         />
                         <span
-                            className={`font-display text-xl font-semibold tracking-wide transition-colors duration-300 ${isScrolled ? 'text-wood' : 'text-cream'}`}
+                            className={`font-display text-xl font-semibold tracking-wide transition-colors duration-300 ${isScrolled ? 'text-gold' : 'text-cream'}`}
                         >
                             Carpintería JJ
                         </span>
@@ -70,7 +70,7 @@ export default function Header() {
                             <a
                                 key={href}
                                 href={href}
-                                className={`relative text-sm font-body font-medium tracking-wide transition-colors duration-300 after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-gold after:transition-all after:duration-300 hover:after:w-full focus-ring rounded ${isScrolled ? 'text-wood hover:text-gold' : 'text-cream/90 hover:text-gold'}`}
+                                className={`relative text-sm font-body font-medium tracking-wide transition-colors duration-300 after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-gold after:transition-all after:duration-300 hover:after:w-full focus-ring rounded ${isScrolled ? 'text-white/80 hover:text-gold' : 'text-cream/90 hover:text-gold'}`}
                             >
                                 {label}
                             </a>
@@ -79,7 +79,7 @@ export default function Header() {
 
                     {/* Mobile Menu Button */}
                     <button
-                        className={`md:hidden p-2 rounded-lg transition-colors duration-300 focus-ring ${isScrolled ? 'text-wood hover:bg-wood/10' : 'text-cream hover:bg-white/10'}`}
+                        className={`md:hidden p-2 rounded-lg transition-colors duration-300 focus-ring ${isScrolled ? 'text-white hover:bg-white/10' : 'text-cream hover:bg-white/10'}`}
                         onClick={handleToggleMobileMenu}
                         aria-label={isMobileMenuOpen ? 'Cerrar menú' : 'Abrir menú'}
                         aria-expanded={isMobileMenuOpen}
@@ -97,7 +97,7 @@ export default function Header() {
                         animate={{ opacity: 1, height: 'auto' }}
                         exit={{ opacity: 0, height: 0 }}
                         transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
-                        className="md:hidden bg-cream/95 backdrop-blur-md border-t border-wood/10 shadow-2xl"
+                        className="md:hidden bg-black/90 backdrop-blur-xl border-t border-white/10 shadow-2xl"
                         role="dialog"
                         aria-modal="true"
                         aria-label="Menú de navegación móvil"
@@ -108,7 +108,7 @@ export default function Header() {
                                     key={href}
                                     href={href}
                                     onClick={handleCloseMobileMenu}
-                                    className="text-wood font-body font-medium py-3 px-4 rounded-lg hover:bg-wood/5 hover:text-gold transition-colors duration-200 focus-ring"
+                                    className="text-white/80 font-body font-medium py-3 px-4 rounded-lg hover:bg-white/5 hover:text-gold transition-colors duration-200 focus-ring"
                                 >
                                     {label}
                                 </a>

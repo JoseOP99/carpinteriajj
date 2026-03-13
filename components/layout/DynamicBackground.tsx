@@ -1,77 +1,63 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { GALLERY_PROJECTS } from '@/data/gallery'
+import Image from 'next/image'
+
+const HERO_IMAGES = [
+    '/hero.png',
+    '/hero (2).png',
+    '/hero (3).png',
+    '/hero (4).png',
+    '/hero (5).png',
+    '/hero (6).png',
+    '/hero (7).png',
+    '/hero (8).png',
+]
 
 /**
  * `DynamicBackground`
- * 
- * Componente que muestra un fondo de pantalla dinámico cargando imágenes aleatorias
- * de los proyectos de la galería cada cierto tiempo.
- * Incluye un overlay de gradiente oscuro para asegurar la legibilidad del contenido.
+ *
+ * Fondo dinámico a pantalla completa con transición entre imágenes hero.
+ * Base negra para evitar el flash gris/blanco durante la carga inicial.
  */
 export default function DynamicBackground() {
-    // Filtrar solo proyectos que tengan imagen seteada
-    const availableImages = GALLERY_PROJECTS.filter(p => p.imageUrl).map(p => p.imageUrl as string)
-    
     const [currentIndex, setCurrentIndex] = useState(0)
     const [isLoaded, setIsLoaded] = useState(false)
 
-    // Función para cambiar de imagen de forma aleatoria (que no sea la misma)
-    const rotateImage = useCallback(() => {
-        if (availableImages.length <= 1) return
-        
-        setCurrentIndex(prev => {
-            let next = prev
-            while (next === prev) {
-                next = Math.floor(Math.random() * availableImages.length)
-            }
-            return next
-        })
-    }, [availableImages])
-
     useEffect(() => {
-        // Inicializar con una imagen aleatoria
-        if (availableImages.length > 0) {
-            setCurrentIndex(Math.floor(Math.random() * availableImages.length))
-            setIsLoaded(true)
-        }
-
-        // Cambiar cada 8 segundos para un ritmo más dinámico pero suave
-        const timer = setInterval(rotateImage, 8000)
+        const timer = setInterval(() => {
+            setCurrentIndex((prev) => (prev + 1) % HERO_IMAGES.length)
+        }, 8000)
         return () => clearInterval(timer)
-    }, [availableImages.length, rotateImage])
-
-    if (!isLoaded || availableImages.length === 0) return (
-        <div className="fixed inset-0 z-[-1] bg-cream-warm" />
-    )
+    }, [])
 
     return (
-        <div className="fixed inset-0 z-[-1] overflow-hidden bg-cream">
-            <AnimatePresence mode="popLayout">
+        <div className="fixed inset-0 z-[-1] overflow-hidden bg-black">
+            <AnimatePresence mode="wait">
                 <motion.div
-                    key={availableImages[currentIndex]}
-                    initial={{ opacity: 0, scale: 1.05 }}
-                    animate={{ opacity: 0.35, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.95 }}
-                    transition={{ duration: 3, ease: [0.4, 0, 0.2, 1] }}
+                    key={HERO_IMAGES[currentIndex]}
+                    initial={{ opacity: 0, scale: 1.04 }}
+                    animate={{ opacity: isLoaded ? 0.6 : 0, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.97 }}
+                    transition={{ duration: 2.5, ease: [0.4, 0, 0.2, 1] }}
                     className="absolute inset-0 w-full h-full"
                 >
-                    <img 
-                        src={availableImages[currentIndex]} 
-                        alt="Fondo dinámico" 
-                        className="w-full h-full object-cover"
+                    <Image
+                        src={HERO_IMAGES[currentIndex]}
+                        alt="Fondo dinámico Carpintería JJ"
+                        fill
+                        priority={currentIndex === 0}
+                        className="object-cover"
+                        sizes="100vw"
+                        quality={75}
+                        onLoad={() => setIsLoaded(true)}
                     />
                 </motion.div>
             </AnimatePresence>
 
-            {/* Overlay: Gradiente más suave para tonos cálidos */}
-            <div className="absolute inset-0 bg-gradient-to-b from-cream/20 via-transparent to-cream/40" />
-            
-            {/* Ruido sutil para textura */}
-            <div className="absolute inset-0 opacity-[0.03] pointer-events-none mix-blend-overlay"
-                 style={{ backgroundImage: 'url("https://www.transparenttextures.com/patterns/p6.png")' }} />
+            {/* Overlay oscuro sutil para garantizar siempre fondo negro visible */}
+            <div className="absolute inset-0 bg-black/20 pointer-events-none" />
         </div>
     )
 }
