@@ -2,8 +2,11 @@
 
 import { useState, useCallback, useEffect, useRef } from 'react'
 import { motion, AnimatePresence, useInView } from 'framer-motion'
-import { ZoomIn, X, ChevronLeft, ChevronRight, Package } from 'lucide-react'
+import { ZoomIn, X, ChevronLeft, ChevronRight, Package, ChevronDown } from 'lucide-react'
 import { GALLERY_PROJECTS, GALLERY_CATEGORIES, type GalleryCategory, type GalleryProject } from '@/data/gallery'
+
+// Número de proyectos por página (2 filas × 4 columnas en desktop)
+const PAGE_SIZE = 8
 
 interface GalleryCardProps {
     project: GalleryProject
@@ -11,28 +14,29 @@ interface GalleryCardProps {
     index: number
 }
 
-/**
- * `GalleryCard`
- * Tarjeta individual de proyecto con skeleton oscuro mientras carga la imagen.
- */
 function GalleryCard({ project, onOpen, index }: GalleryCardProps) {
     const [loaded, setLoaded] = useState(false)
     const handleOpen = useCallback(() => onOpen(project), [onOpen, project])
 
     return (
         <motion.article
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-30px' }}
-            transition={{ duration: 0.45, delay: (index % 6) * 0.06, ease: [0.25, 0.46, 0.45, 0.94] }}
-            className="relative group aspect-square rounded-2xl overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-400 bg-stone-800"
+            layout
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 8 }}
+            transition={{
+                duration: 0.55,
+                delay: (index % PAGE_SIZE) * 0.04,
+                ease: [0.16, 1, 0.3, 1],
+            }}
+            className="relative group aspect-square rounded-2xl overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl transition-shadow duration-500 bg-stone-800"
             onClick={handleOpen}
             onKeyDown={(e) => e.key === 'Enter' && handleOpen()}
             tabIndex={0}
             role="button"
             aria-label={`Ver proyecto: ${project.title}`}
         >
-            {/* Skeleton / placeholder oscuro */}
+            {/* Skeleton placeholder con color cálido */}
             {!loaded && (
                 <div
                     className="absolute inset-0"
@@ -42,7 +46,7 @@ function GalleryCard({ project, onOpen, index }: GalleryCardProps) {
                 </div>
             )}
 
-            {/* Imagen del proyecto */}
+            {/* Imagen */}
             {project.imageUrl ? (
                 <img
                     src={project.imageUrl}
@@ -61,22 +65,22 @@ function GalleryCard({ project, onOpen, index }: GalleryCardProps) {
                 />
             )}
 
-            {/* Overlay de hover: gradiente oscuro */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            {/* Hover overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400" />
 
             {/* Badge de categoría */}
-            <span className="absolute top-3 left-3 z-10 font-body text-[10px] uppercase tracking-wider font-bold bg-black/60 text-white px-2.5 py-1 rounded-md backdrop-blur-sm border border-white/10 shadow-sm group-hover:bg-gold group-hover:border-gold/0 transition-all duration-300">
+            <span className="absolute top-3 left-3 z-10 font-body text-[10px] uppercase tracking-wider font-bold bg-black/60 text-white px-2.5 py-1 rounded-md backdrop-blur-sm border border-white/10 group-hover:bg-gold group-hover:border-gold/0 transition-all duration-300">
                 {project.category}
             </span>
 
-            {/* Icono de zoom centrado */}
+            {/* Zoom icon */}
             <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
                 <div className="bg-white/15 backdrop-blur-md p-4 rounded-full border border-white/25 shadow-xl transform scale-75 group-hover:scale-100 transition-transform duration-300">
                     <ZoomIn size={22} className="text-white" aria-hidden="true" />
                 </div>
             </div>
 
-            {/* Info inferior al hacer hover */}
+            {/* Info inferior */}
             <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-3 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 ease-out">
                 <h3 className="font-display text-sm font-bold text-white leading-tight drop-shadow-md">{project.title}</h3>
                 <p className="font-body text-xs text-white/70 mt-0.5">{project.material}</p>
@@ -92,10 +96,6 @@ interface GalleryModalProps {
     onNext: () => void
 }
 
-/**
- * `GalleryModal`
- * Lightbox oscuro y elegante para ver proyectos en detalle.
- */
 function GalleryModal({ project, onClose, onPrev, onNext }: GalleryModalProps) {
     const [imgLoaded, setImgLoaded] = useState(false)
 
@@ -131,23 +131,20 @@ function GalleryModal({ project, onClose, onPrev, onNext }: GalleryModalProps) {
                     aria-modal="true"
                     aria-label={`Detalle del proyecto: ${project.title}`}
                 >
-                    {/* Backdrop oscuro semi-transparente */}
                     <div
                         className="absolute inset-0 bg-black/90 backdrop-blur-sm"
                         onClick={onClose}
                         aria-hidden="true"
                     />
 
-                    {/* Contenedor imagen */}
                     <motion.div
-                        initial={{ scale: 0.88, opacity: 0, y: 24 }}
+                        initial={{ scale: 0.9, opacity: 0, y: 20 }}
                         animate={{ scale: 1, opacity: 1, y: 0 }}
-                        exit={{ scale: 0.88, opacity: 0, y: 24 }}
+                        exit={{ scale: 0.9, opacity: 0, y: 20 }}
                         transition={{ type: 'spring', stiffness: 350, damping: 28 }}
-                        className="relative z-10 w-full max-w-5xl max-h-full flex flex-col items-center gap-6"
+                        className="relative z-10 w-full max-w-5xl max-h-full flex flex-col items-center gap-5"
                     >
                         <div className="relative w-full flex items-center justify-center">
-                            {/* Skeleton del modal */}
                             {!imgLoaded && project.imageUrl && (
                                 <div className="w-full h-[60vh] rounded-2xl bg-neutral-800 animate-pulse flex items-center justify-center">
                                     <Package size={48} className="text-white/10" />
@@ -172,19 +169,13 @@ function GalleryModal({ project, onClose, onPrev, onNext }: GalleryModalProps) {
                             )}
                         </div>
 
-                        {/* Info del proyecto */}
                         <div className="text-center">
-                            <span className="font-body text-xs font-bold uppercase tracking-[0.3em] text-gold">
-                                {project.category}
-                            </span>
-                            <h2 className="font-display text-3xl md:text-4xl font-bold text-white mt-1">
-                                {project.title}
-                            </h2>
+                            <span className="font-body text-xs font-bold uppercase tracking-[0.3em] text-gold">{project.category}</span>
+                            <h2 className="font-display text-3xl md:text-4xl font-bold text-white mt-1">{project.title}</h2>
                             <p className="font-body text-sm text-white/50 mt-1">{project.material} · {project.location} · {project.year}</p>
                         </div>
                     </motion.div>
 
-                    {/* Navegación lateral */}
                     <button
                         onClick={onPrev}
                         className="absolute left-2 md:left-6 top-1/2 -translate-y-1/2 w-12 h-12 md:w-14 md:h-14 bg-white/10 hover:bg-white/20 text-white rounded-full flex items-center justify-center transition-all backdrop-blur-sm border border-white/15 z-[110] shadow-xl"
@@ -199,8 +190,6 @@ function GalleryModal({ project, onClose, onPrev, onNext }: GalleryModalProps) {
                     >
                         <ChevronRight size={28} />
                     </button>
-
-                    {/* Cerrar */}
                     <button
                         onClick={onClose}
                         className="absolute top-4 right-4 md:top-6 md:right-6 w-11 h-11 bg-white/10 hover:bg-red-500/80 text-white rounded-full flex items-center justify-center transition-all backdrop-blur-sm border border-white/15 z-[110] shadow-xl"
@@ -214,48 +203,57 @@ function GalleryModal({ project, onClose, onPrev, onNext }: GalleryModalProps) {
     )
 }
 
-/**
- * `GallerySection`
- * Galería de proyectos con filtros de categoría, grid animado, y lightbox.
- */
 export default function GallerySection() {
     const [activeCategory, setActiveCategory] = useState<GalleryCategory>('todos')
+    const [visibleCount, setVisibleCount] = useState(PAGE_SIZE)
     const [selectedProject, setSelectedProject] = useState<GalleryProject | null>(null)
-    const [showAll, setShowAll] = useState(false)
     const ref = useRef<HTMLDivElement>(null)
     const isInView = useInView(ref, { once: true, margin: '-80px' })
+
+    const allCategories: { id: GalleryCategory; label: string }[] = [
+        { id: 'todos', label: 'Todos' },
+        { id: 'cocinas', label: 'Cocinas' },
+        { id: 'closets', label: 'Closets' },
+        { id: 'puertas', label: 'Puertas' },
+        { id: 'muebles', label: 'Muebles' },
+        { id: 'sala', label: 'Sala Entretenimiento' },
+        { id: 'camas', label: 'Camas' },
+        { id: 'otros', label: 'Otros' },
+    ]
 
     const filteredProjects =
         activeCategory === 'todos'
             ? GALLERY_PROJECTS
             : GALLERY_PROJECTS.filter((p) => p.category === activeCategory)
 
-    const handleOpenProject = useCallback((project: GalleryProject) => {
-        setSelectedProject(project)
-    }, [])
+    const visibleProjects = filteredProjects.slice(0, visibleCount)
+    const hasMore = visibleCount < filteredProjects.length
+    const remaining = filteredProjects.length - visibleCount
+    const nextBatchCount = Math.min(PAGE_SIZE, remaining)
 
-    const handleCloseModal = useCallback(() => {
-        setSelectedProject(null)
-    }, [])
+    const handleOpenProject = useCallback((project: GalleryProject) => setSelectedProject(project), [])
+    const handleCloseModal = useCallback(() => setSelectedProject(null), [])
 
     const handlePrevProject = useCallback(() => {
         if (!selectedProject) return
         const idx = filteredProjects.findIndex((p) => p.id === selectedProject.id)
-        const prevIdx = (idx - 1 + filteredProjects.length) % filteredProjects.length
-        setSelectedProject(filteredProjects[prevIdx])
+        setSelectedProject(filteredProjects[(idx - 1 + filteredProjects.length) % filteredProjects.length])
     }, [selectedProject, filteredProjects])
 
     const handleNextProject = useCallback(() => {
         if (!selectedProject) return
         const idx = filteredProjects.findIndex((p) => p.id === selectedProject.id)
-        const nextIdx = (idx + 1) % filteredProjects.length
-        setSelectedProject(filteredProjects[nextIdx])
+        setSelectedProject(filteredProjects[(idx + 1) % filteredProjects.length])
     }, [selectedProject, filteredProjects])
 
     const handleCategoryChange = useCallback((cat: GalleryCategory) => {
         setActiveCategory(cat)
-        setShowAll(false)
+        setVisibleCount(PAGE_SIZE)  // reset paginación
         setSelectedProject(null)
+    }, [])
+
+    const handleLoadMore = useCallback(() => {
+        setVisibleCount((prev) => prev + PAGE_SIZE)
     }, [])
 
     return (
@@ -288,10 +286,10 @@ export default function GallerySection() {
                     role="group"
                     aria-label="Filtros de categoría"
                 >
-                    {GALLERY_CATEGORIES.map(({ id, label }) => (
+                    {allCategories.map(({ id, label }) => (
                         <button
                             key={id}
-                            onClick={() => handleCategoryChange(id)}
+                            onClick={() => handleCategoryChange(id as GalleryCategory)}
                             className={`font-body text-sm font-medium px-5 py-2.5 rounded-full border transition-all duration-300 focus-ring ${
                                 activeCategory === id
                                     ? 'bg-wood text-cream border-wood shadow-lg shadow-wood/20'
@@ -305,22 +303,20 @@ export default function GallerySection() {
                 </motion.div>
 
                 {/* Contador */}
-                <motion.p
-                    initial={{ opacity: 0 }}
-                    animate={isInView ? { opacity: 1 } : {}}
-                    transition={{ duration: 0.4, delay: 0.25 }}
-                    className="text-center font-body text-xs text-wood/40 mb-6 uppercase tracking-widest"
-                >
+                <p className="text-center font-body text-xs text-wood/40 mb-6 uppercase tracking-widest">
                     {filteredProjects.length} proyecto{filteredProjects.length !== 1 ? 's' : ''}
-                </motion.p>
+                </p>
 
-                {/* Grid de proyectos */}
+                {/* Grid */}
                 <motion.div
+                    key={activeCategory}
                     className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4"
-                    layout
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.35, ease: 'easeOut' }}
                 >
-                    <AnimatePresence mode="popLayout">
-                        {filteredProjects.slice(0, showAll ? undefined : 16).map((project, index) => (
+                    <AnimatePresence mode="popLayout" initial={false}>
+                        {visibleProjects.map((project, index) => (
                             <GalleryCard
                                 key={project.id}
                                 project={project}
@@ -331,25 +327,28 @@ export default function GallerySection() {
                     </AnimatePresence>
                 </motion.div>
 
-                {/* Botón Ver Más */}
-                {filteredProjects.length > 16 && !showAll && (
+                {/* Ver más — 2 filas por click */}
+                {hasMore && (
                     <motion.div
                         initial={{ opacity: 0, y: 12 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.3 }}
-                        className="flex justify-center mt-12"
+                        transition={{ delay: 0.2 }}
+                        className="flex flex-col items-center mt-12 gap-2"
                     >
                         <button
-                            onClick={() => setShowAll(true)}
-                            className="font-body font-semibold text-sm px-10 py-4 rounded-full border-2 border-wood text-wood hover:bg-wood hover:text-cream transition-all duration-300 shadow-sm hover:shadow-lg hover:shadow-wood/20"
+                            onClick={handleLoadMore}
+                            className="inline-flex items-center gap-2 font-body font-semibold text-sm px-10 py-4 rounded-full border-2 border-wood text-wood hover:bg-wood hover:text-cream transition-all duration-300 shadow-sm hover:shadow-lg hover:shadow-wood/20"
                         >
-                            Ver {filteredProjects.length - 16} proyectos más
+                            <ChevronDown size={18} />
+                            Ver {nextBatchCount} proyectos más
                         </button>
+                        <span className="font-body text-xs text-wood/35">
+                            {visibleCount} de {filteredProjects.length} mostrados
+                        </span>
                     </motion.div>
                 )}
             </div>
 
-            {/* Modal */}
             <GalleryModal
                 project={selectedProject}
                 onClose={handleCloseModal}

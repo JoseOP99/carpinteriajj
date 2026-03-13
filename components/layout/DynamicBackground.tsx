@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
 
@@ -18,46 +18,73 @@ const HERO_IMAGES = [
 /**
  * `DynamicBackground`
  *
- * Fondo dinámico a pantalla completa con transición entre imágenes hero.
- * Base negra para evitar el flash gris/blanco durante la carga inicial.
+ * Crossfade suave entre imágenes hero — la nueva imagen aparece por debajo
+ * de la que sale, garantizando que siempre hay una imagen visible.
  */
 export default function DynamicBackground() {
     const [currentIndex, setCurrentIndex] = useState(0)
-    const [isLoaded, setIsLoaded] = useState(false)
+    const [nextIndex, setNextIndex] = useState(1)
+    const [transitioning, setTransitioning] = useState(false)
 
     useEffect(() => {
         const timer = setInterval(() => {
-            setCurrentIndex((prev) => (prev + 1) % HERO_IMAGES.length)
+            const next = (currentIndex + 1) % HERO_IMAGES.length
+            setNextIndex(next)
+            setTransitioning(true)
+
+            // Después de la transición completa, actualiza el índice base
+            const swapTimer = setTimeout(() => {
+                setCurrentIndex(next)
+                setTransitioning(false)
+            }, 2000) // igual a la duración de la transición
+
+            return () => clearTimeout(swapTimer)
         }, 8000)
         return () => clearInterval(timer)
-    }, [])
+    }, [currentIndex])
 
     return (
         <div className="fixed inset-0 z-[-1] overflow-hidden bg-black">
-            <AnimatePresence mode="wait">
-                <motion.div
-                    key={HERO_IMAGES[currentIndex]}
-                    initial={{ opacity: 0, scale: 1.04 }}
-                    animate={{ opacity: isLoaded ? 0.6 : 0, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.97 }}
-                    transition={{ duration: 2.5, ease: [0.4, 0, 0.2, 1] }}
-                    className="absolute inset-0 w-full h-full"
-                >
-                    <Image
-                        src={HERO_IMAGES[currentIndex]}
-                        alt="Fondo dinámico Carpintería JJ"
-                        fill
-                        priority={currentIndex === 0}
-                        className="object-cover"
-                        sizes="100vw"
-                        quality={75}
-                        onLoad={() => setIsLoaded(true)}
-                    />
-                </motion.div>
+            {/* Imagen base (siempre visible) */}
+            <div className="absolute inset-0">
+                <Image
+                    src={HERO_IMAGES[currentIndex]}
+                    alt="Fondo Carpintería JJ"
+                    fill
+                    priority
+                    className="object-cover"
+                    sizes="100vw"
+                    quality={70}
+                    style={{ opacity: 0.6 }}
+                />
+            </div>
+
+            {/* Imagen siguiente — aparece encima durante la transición */}
+            <AnimatePresence>
+                {transitioning && (
+                    <motion.div
+                        key={HERO_IMAGES[nextIndex]}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 0.6 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 2, ease: 'easeInOut' }}
+                        className="absolute inset-0"
+                    >
+                        <Image
+                            src={HERO_IMAGES[nextIndex]}
+                            alt="Fondo Carpintería JJ"
+                            fill
+                            priority
+                            className="object-cover"
+                            sizes="100vw"
+                            quality={70}
+                        />
+                    </motion.div>
+                )}
             </AnimatePresence>
 
-            {/* Overlay oscuro sutil para garantizar siempre fondo negro visible */}
-            <div className="absolute inset-0 bg-black/20 pointer-events-none" />
+            {/* Overlay negro fijo */}
+            <div className="absolute inset-0 bg-black/25 pointer-events-none" />
         </div>
     )
 }

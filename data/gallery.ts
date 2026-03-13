@@ -3,7 +3,7 @@
  * Rutas de imágenes corregidas y auditadas contra los archivos reales en /public/images/gallery/
  */
 
-export type GalleryCategory = 'todos' | 'cocinas' | 'closets' | 'puertas' | 'muebles' | 'camas' | 'otros'
+export type GalleryCategory = 'todos' | 'cocinas' | 'closets' | 'puertas' | 'muebles' | 'sala' | 'camas' | 'otros'
 
 export interface GalleryProject {
     id: string
@@ -86,10 +86,10 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     { id: 'mueble-20', title: 'Bancas', category: 'muebles', material: 'Madera', year: 2024, description: 'Mueble', gradientFrom: '#3D4F4F', gradientTo: '#2D3A3A', location: 'Medellín', imageUrl: '/images/gallery/muebles/banca.png.png' },
     { id: 'mueble-21', title: 'Mueble de Cocina', category: 'muebles', material: 'Madera', year: 2024, description: 'Mueble', gradientFrom: '#3D4F4F', gradientTo: '#2D3A3A', location: 'Medellín', imageUrl: '/images/gallery/muebles/muebleCocina.png.png' },
     // Sala Entretenimiento — archivos reales en /images/gallery/sala entretenimiento/
-    { id: 'mueble-22', title: 'Sala Entretenimiento', category: 'muebles', material: 'Madera', year: 2024, description: 'Mueble', gradientFrom: '#3D4F4F', gradientTo: '#2D3A3A', location: 'Medellín', imageUrl: '/images/gallery/sala entretenimiento/salaEntretenimiento.png.png' },
-    { id: 'mueble-23', title: 'Sala Entretenimiento', category: 'muebles', material: 'Madera', year: 2024, description: 'Mueble', gradientFrom: '#3D4F4F', gradientTo: '#2D3A3A', location: 'Medellín', imageUrl: '/images/gallery/sala entretenimiento/salaEntretenimiento (2).png.png' },
-    { id: 'mueble-24', title: 'Sala Entretenimiento', category: 'muebles', material: 'Madera', year: 2024, description: 'Mueble', gradientFrom: '#3D4F4F', gradientTo: '#2D3A3A', location: 'Medellín', imageUrl: '/images/gallery/sala entretenimiento/salaEntretenimiento (3).png.png' },
-    { id: 'mueble-25', title: 'Mostrador', category: 'muebles', material: 'Madera', year: 2024, description: 'Mueble', gradientFrom: '#3D4F4F', gradientTo: '#2D3A3A', location: 'Medellín', imageUrl: '/images/gallery/sala entretenimiento/mostrador.png.png' },
+    { id: 'mueble-22', title: 'Sala Entretenimiento', category: 'sala', material: 'Madera', year: 2024, description: 'Sala Entretenimiento', gradientFrom: '#3D4F4F', gradientTo: '#2D3A3A', location: 'Medellín', imageUrl: '/images/gallery/sala entretenimiento/salaEntretenimiento.png.png' },
+    { id: 'mueble-23', title: 'Sala Entretenimiento', category: 'sala', material: 'Madera', year: 2024, description: 'Sala Entretenimiento', gradientFrom: '#3D4F4F', gradientTo: '#2D3A3A', location: 'Medellín', imageUrl: '/images/gallery/sala entretenimiento/salaEntretenimiento (2).png.png' },
+    { id: 'mueble-24', title: 'Sala Entretenimiento', category: 'sala', material: 'Madera', year: 2024, description: 'Sala Entretenimiento', gradientFrom: '#3D4F4F', gradientTo: '#2D3A3A', location: 'Medellín', imageUrl: '/images/gallery/sala entretenimiento/salaEntretenimiento (3).png.png' },
+    { id: 'mueble-25', title: 'Mostrador', category: 'sala', material: 'Madera', year: 2024, description: 'Sala Entretenimiento', gradientFrom: '#3D4F4F', gradientTo: '#2D3A3A', location: 'Medellín', imageUrl: '/images/gallery/sala entretenimiento/mostrador.png.png' },
 
     // PUERTAS — archivos en /images/gallery/puertas y ventanas/
     { id: 'puerta-1', title: 'Puerta Principal', category: 'puertas', material: 'Madera Sólida', year: 2024, description: 'Puerta', gradientFrom: '#2D3A3A', gradientTo: '#1E2828', location: 'Medellín', imageUrl: '/images/gallery/puertas y ventanas/puerta.png.png' },
