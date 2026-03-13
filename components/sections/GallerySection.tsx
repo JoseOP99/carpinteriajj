@@ -5,8 +5,8 @@ import { motion, AnimatePresence, useInView } from 'framer-motion'
 import { ZoomIn, X, ChevronLeft, ChevronRight, Package, ChevronDown } from 'lucide-react'
 import { GALLERY_PROJECTS, GALLERY_CATEGORIES, type GalleryCategory, type GalleryProject } from '@/data/gallery'
 
-// Número de proyectos por página (2 filas × 4 columnas en desktop)
-const PAGE_SIZE = 8
+// Número de proyectos por página (2 filas × 3 columnas en desktop)
+const PAGE_SIZE = 6
 
 interface GalleryCardProps {
     project: GalleryProject
@@ -302,15 +302,12 @@ export default function GallerySection() {
                     ))}
                 </motion.div>
 
-                {/* Contador */}
-                <p className="text-center font-body text-xs text-wood/40 mb-6 uppercase tracking-widest">
-                    {filteredProjects.length} proyecto{filteredProjects.length !== 1 ? 's' : ''}
-                </p>
+                {/* Error: project counter removed here as requested */}
 
                 {/* Grid */}
                 <motion.div
                     key={activeCategory}
-                    className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4"
+                    className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.35, ease: 'easeOut' }}

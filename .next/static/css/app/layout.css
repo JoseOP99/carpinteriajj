@@ -1566,6 +1566,12 @@ video {
 .bg-wood\/80 {
   background-color: rgb(61 43 31 / 0.8);
 }
+.bg-black\/40 {
+  background-color: rgb(0 0 0 / 0.4);
+}
+.bg-wood\/50 {
+  background-color: rgb(61 43 31 / 0.5);
+}
 .bg-gradient-to-t {
   background-image: linear-gradient(to top, var(--tw-gradient-stops));
 }
@@ -2502,6 +2508,11 @@ body {
   .md\:py-24 {
     padding-top: 6rem;
     padding-bottom: 6rem;
+  }
+
+  .md\:py-16 {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
   }
 
   .md\:pb-28 {

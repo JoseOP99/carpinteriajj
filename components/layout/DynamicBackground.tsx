@@ -36,7 +36,7 @@ export default function DynamicBackground() {
             const swapTimer = setTimeout(() => {
                 setCurrentIndex(next)
                 setTransitioning(false)
-            }, 2000) // igual a la duración de la transición
+            }, 800) // igual a la duración de la transición
 
             return () => clearTimeout(swapTimer)
         }, 8000)
@@ -67,7 +67,7 @@ export default function DynamicBackground() {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 0.6 }}
                         exit={{ opacity: 0 }}
-                        transition={{ duration: 2, ease: 'easeInOut' }}
+                        transition={{ duration: 0.8, ease: 'easeInOut' }}
                         className="absolute inset-0"
                     >
                         <Image

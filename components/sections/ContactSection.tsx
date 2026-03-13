@@ -39,7 +39,7 @@ export default function ContactSection() {
             const swapTimer = setTimeout(() => {
                 setCurrentIndex(next)
                 setTransitioning(false)
-            }, 2000)
+            }, 800)
             return () => clearTimeout(swapTimer)
         }, 7000)
         return () => clearInterval(timer)
@@ -48,7 +48,7 @@ export default function ContactSection() {
     return (
         <section
             id="contacto"
-            className="relative py-16 md:py-24 text-cream overflow-hidden"
+            className="relative py-10 md:py-16 text-cream overflow-hidden"
             aria-label="Contacto y ubicación de Carpintería JJ"
         >
             {/* Fondo: imágenes hero en crossfade */}
@@ -62,7 +62,7 @@ export default function ContactSection() {
                         className="object-cover"
                         sizes="100vw"
                         quality={60}
-                        style={{ opacity: 0.35 }}
+                        style={{ opacity: 0.45 }}
                     />
                 </div>
                 {/* Imagen siguiente en crossfade */}
@@ -70,9 +70,9 @@ export default function ContactSection() {
                     <motion.div
                         key={HERO_IMAGES[nextIndex]}
                         initial={{ opacity: 0 }}
-                        animate={{ opacity: 0.35 }}
+                        animate={{ opacity: 0.45 }}
                         exit={{ opacity: 0 }}
-                        transition={{ duration: 2, ease: 'easeInOut' }}
+                        transition={{ duration: 0.8, ease: 'easeInOut' }}
                         className="absolute inset-0"
                     >
                         <Image
@@ -85,8 +85,9 @@ export default function ContactSection() {
                         />
                     </motion.div>
                 )}
-                {/* Overlay madera semi-transparente — tono cálido */}
-                <div className="absolute inset-0 bg-wood/80" />
+                {/* Overlay madera y negro — más transparente */}
+                <div className="absolute inset-0 bg-wood/50" />
+                <div className="absolute inset-0 bg-black/40" />
             </div>
 
             {/* Contenido */}
@@ -182,7 +183,7 @@ export default function ContactSection() {
                             <iframe
                                 src="https://maps.google.com/maps?width=100%25&height=600&hl=en&q=Carpinter%C3%ADa%20JJ,%20Cl%2070A%20%23%2043-32,%20Medell%C3%ADn,%20Antioquia+(Carpinter%C3%ADa%20JJ)&t=&z=16&ie=UTF8&iwloc=B&output=embed"
                                 width="100%"
-                                height="380"
+                                height="320"
                                 style={{ border: 0 }}
                                 loading="lazy"
                                 referrerPolicy="no-referrer-when-downgrade"
