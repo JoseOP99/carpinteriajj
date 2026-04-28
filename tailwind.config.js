@@ -48,6 +48,44 @@ module.exports = {
                     DEFAULT: '#E8E4DD',
                     light: '#F3F1ED',
                 },
+                // === PALETAS ALTERNATIVAS MODERNAS ===
+                // Opción 1: Tonos esmeralda + cobre (luxury moderno)
+                emerald: {
+                    deep: '#0F2E2E',
+                    dark: '#1A4A4A',
+                    DEFAULT: '#2D6B6B',
+                    light: '#4A8F8F',
+                },
+                copper: {
+                    dark: '#8B4513',
+                    DEFAULT: '#B87333',
+                    light: '#DA8A4F',
+                    bright: '#E8A87C',
+                },
+                // Opción 2: Borgoña + champagne (elegancia clásica)
+                burgundy: {
+                    dark: '#4A0E1A',
+                    DEFAULT: '#722F37',
+                    light: '#A0454D',
+                },
+                champagne: {
+                    DEFAULT: '#F7E7CE',
+                    rich: '#E8C77F',
+                    deep: '#C9A557',
+                },
+                // Opción 3: Carbón + dorado moderno (industrial luxury)
+                charcoal: {
+                    deep: '#0A0A0A',
+                    dark: '#1A1A1A',
+                    DEFAULT: '#2A2A2A',
+                    light: '#3D3D3D',
+                },
+                amber: {
+                    deep: '#8B5A00',
+                    DEFAULT: '#FFA500',
+                    light: '#FFC966',
+                    bright: '#FFD700',
+                },
             },
             fontFamily: {
                 display: ['var(--font-cormorant)', 'serif'],

@@ -1,4 +1,4 @@
-// File: C:\Users\USUARIO\Desktop\Desarrollos\carpinteriajj\app\page.tsx
+// File: C:\Users\USUARIO\Desktop\Desarrollos\carpinteriajj\.claude\worktrees\adoring-goldwasser-cd093c\app\page.tsx
 import * as entry from '../../../app/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
