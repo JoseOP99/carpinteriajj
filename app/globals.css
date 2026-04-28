@@ -26,28 +26,89 @@ body {
 }
 
 @layer components {
+  /* Botones Premium */
   .btn-whatsapp {
-    @apply inline-flex items-center gap-3 bg-green-500 hover:bg-green-600 text-white font-body font-semibold px-6 py-3 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-xl;
+    @apply inline-flex items-center gap-3 bg-green-500 hover:bg-green-600 text-white font-body font-semibold px-6 py-3 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg shadow-elevation-md;
   }
 
   .btn-outline {
     @apply inline-flex items-center gap-2 border border-current text-current px-6 py-3 rounded-xl transition-all duration-300 hover:bg-white/10 font-body font-medium;
   }
 
+  .btn-glass {
+    @apply px-6 py-3 rounded-xl font-body font-semibold backdrop-blur-lg bg-glass-light border border-white/20 text-white hover:bg-glass-lighter transition-all duration-300 hover:shadow-glass-md;
+  }
+
+  /* Badges y etiquetas */
   .section-badge {
-    @apply inline-flex items-center gap-2 text-xs font-body font-semibold tracking-widest uppercase text-gold border border-gold/40 rounded-full px-4 py-1.5;
+    @apply inline-flex items-center gap-2 text-xs font-body font-semibold tracking-widest uppercase text-gold border border-gold/40 rounded-full px-4 py-1.5 backdrop-blur-sm bg-white/5;
   }
 
+  .gold-badge {
+    @apply inline-flex items-center gap-2 text-xs font-body font-semibold uppercase px-3 py-1.5 rounded-full bg-gold/15 text-gold border border-gold/30;
+  }
+
+  /* Headers Glassmorphic */
   .glass-header {
-    @apply backdrop-blur-xl bg-black/70 border-b border-white/10 shadow-xl;
+    @apply backdrop-blur-lg bg-black/40 border-b border-white/10 shadow-glass-md;
   }
 
+  .glass-header-premium {
+    @apply backdrop-blur-xl bg-black/30 border-b border-white/5 shadow-glass-lg;
+  }
+
+  /* Cards con Glassmorphism */
   .card-service {
-    @apply bg-white rounded-2xl border border-cream-dark p-7 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl cursor-default;
+    @apply bg-gradient-to-br from-white/10 to-white/5 rounded-2xl border border-white/10 p-7 backdrop-blur-md transition-all duration-300 hover:-translate-y-2 hover:shadow-glass-lg hover:border-gold/30 cursor-default group;
   }
 
+  .card-glass {
+    @apply backdrop-blur-lg bg-white/10 rounded-2xl border border-white/20 p-6 transition-all duration-300 hover:bg-white/15 hover:border-white/30 hover:shadow-glass-md;
+  }
+
+  .card-gallery {
+    @apply relative overflow-hidden rounded-2xl backdrop-blur-sm bg-black/20 border border-white/10 transition-all duration-300 hover:border-gold/50;
+  }
+
+  /* Gradientes de texto premium */
   .text-gradient-wood {
     @apply bg-gradient-to-r from-wood-warm via-gold to-gold-light bg-clip-text text-transparent;
+  }
+
+  .text-gradient-gold {
+    @apply bg-gradient-to-r from-gold-rich to-gold-light bg-clip-text text-transparent;
+  }
+
+  .text-gradient-subtle {
+    @apply bg-gradient-to-r from-pearl to-cream-warm bg-clip-text text-transparent;
+  }
+
+  /* Líneas decorativas */
+  .divider-gold {
+    @apply h-1 bg-gradient-to-r from-transparent via-gold to-transparent opacity-50;
+  }
+
+  /* Containers glassmorphic */
+  .glass-container {
+    @apply backdrop-blur-lg bg-white/5 rounded-3xl border border-white/10 p-8 shadow-glass-md;
+  }
+
+  .glass-container-premium {
+    @apply backdrop-blur-xl bg-white/8 rounded-3xl border border-white/15 p-8 shadow-glass-lg;
+  }
+
+  /* Inputs y forms glassmorphic */
+  .input-glass {
+    @apply w-full px-4 py-2.5 rounded-xl backdrop-blur-sm bg-white/10 border border-white/20 text-white placeholder-white/40 transition-all duration-300 focus:bg-white/15 focus:border-gold/50 focus:outline-none;
+  }
+
+  /* Efectos visuales */
+  .glow-effect {
+    @apply transition-shadow duration-300 hover:shadow-hover-glow;
+  }
+
+  .float-animation {
+    @apply animate-glass-float;
   }
 }
 

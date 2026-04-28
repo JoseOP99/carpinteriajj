@@ -1,12 +1,12 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { MessageCircle, ChevronDown, Star } from 'lucide-react'
+import { MessageCircle, ChevronDown, Star, Sparkles } from 'lucide-react'
 import { WHATSAPP_URL, COMPANY_INFO } from '@/lib/constants'
 
 const containerVariants = {
     hidden: {},
-    visible: { transition: { staggerChildren: 0.2 } },
+    visible: { transition: { staggerChildren: 0.15, delayChildren: 0.2 } },
 }
 
 const itemVariants = {
@@ -44,11 +44,11 @@ export default function HeroSection() {
                     animate="visible"
                     className="flex flex-col items-center md:items-start gap-5 max-w-3xl text-center md:text-left mx-auto md:mx-0"
                 >
-                    {/* Badge */}
+                    {/* Badge Premium Glassmorphic */}
                     <motion.div variants={itemVariants}>
-                        <span className="inline-flex items-center gap-2 text-xs font-body font-semibold tracking-widest uppercase text-gold border border-gold/40 rounded-full px-4 py-1.5 bg-black/30 backdrop-blur-md">
-                            <span className="w-1.5 h-1.5 rounded-full bg-gold animate-pulse" aria-hidden="true" />
-                            {COMPANY_INFO.city} · Muebles a Medida
+                        <span className="inline-flex items-center gap-2 text-xs font-body font-semibold tracking-widest uppercase text-gold border border-gold/50 rounded-full px-4 py-2 bg-white/5 backdrop-blur-lg hover:bg-white/10 transition-all duration-300">
+                            <Sparkles size={14} className="text-gold" aria-hidden="true" />
+                            {COMPANY_INFO.city} · Muebles a Medida Artesanales
                         </span>
                     </motion.div>
 
@@ -90,27 +90,28 @@ export default function HeroSection() {
                         </span>
                     </motion.div>
 
-                    {/* CTAs */}
+                    {/* CTAs - Premium */}
                     <motion.div
                         variants={itemVariants}
-                        className="flex flex-col sm:flex-row gap-4 mt-2 w-full sm:w-auto"
+                        className="flex flex-col sm:flex-row gap-4 mt-4 w-full sm:w-auto"
                     >
                         <a
                             href={WHATSAPP_URL}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="btn-whatsapp w-full sm:w-auto justify-center text-base px-8 py-4 rounded-xl shadow-xl shadow-green-900/30 hover:shadow-green-900/50"
+                            className="inline-flex items-center justify-center gap-3 w-full sm:w-auto bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-body font-semibold px-8 py-3.5 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg shadow-elevation-lg group"
                             aria-label="Cotizar por WhatsApp con Carpintería JJ"
                         >
-                            <MessageCircle size={20} aria-hidden="true" />
-                            Cotizar por WhatsApp
+                            <MessageCircle size={20} aria-hidden="true" className="group-hover:scale-110 transition-transform" />
+                            Cotizar Ahora
                         </a>
                         <a
                             href="#galeria"
-                            className="inline-flex items-center justify-center gap-2 w-full sm:w-auto border border-white/30 text-white hover:bg-white/10 hover:border-white/60 px-8 py-4 rounded-xl text-base bg-white/5 backdrop-blur-sm transition-all duration-300 font-body font-medium"
+                            className="inline-flex items-center justify-center gap-2 w-full sm:w-auto border border-white/30 text-white hover:border-gold/50 px-8 py-3.5 rounded-xl text-base bg-white/8 backdrop-blur-lg transition-all duration-300 font-body font-medium hover:bg-white/15 hover:shadow-glass-md group"
                             aria-label="Ver proyectos de Carpintería JJ"
                         >
-                            Ver Proyectos
+                            <span>Ver Portafolio</span>
+                            <ChevronDown size={18} aria-hidden="true" className="group-hover:translate-y-1 transition-transform" />
                         </a>
                     </motion.div>
                 </motion.div>

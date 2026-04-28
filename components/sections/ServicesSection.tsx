@@ -51,33 +51,37 @@ function ServiceCard({ service, index }: ServiceCardProps) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-50px' }}
             transition={{ duration: 0.6, delay: index * 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
-            className="group card-service relative overflow-hidden"
+            className="group relative overflow-hidden rounded-2xl border border-cream-dark/30 bg-gradient-to-br from-white/90 to-cream-warm/50 p-7 transition-all duration-300 hover:border-gold/40 hover:shadow-elevation-lg hover:-translate-y-2 backdrop-blur-sm"
         >
-            {/* Borde top animado */}
+            {/* Borde top animado - premium */}
             <div
-                className="absolute top-0 left-0 h-1 w-0 group-hover:w-full transition-all duration-500 rounded-t-xl"
+                className="absolute top-0 left-0 h-1.5 w-0 group-hover:w-full transition-all duration-500 rounded-t-xl"
                 style={{ backgroundColor: service.accentColor }}
                 aria-hidden="true"
             />
 
-            {/* Icono */}
+            {/* Icono con glassmorphism */}
             <div
-                className="w-14 h-14 rounded-xl flex items-center justify-center mb-4 transition-transform duration-300 group-hover:scale-110"
-                style={{ backgroundColor: `${service.accentColor}22`, color: service.accentColor }}
+                className="w-16 h-16 rounded-xl flex items-center justify-center mb-5 transition-all duration-300 group-hover:scale-110 border border-white/50 backdrop-blur-sm"
+                style={{
+                    backgroundColor: `${service.accentColor}15`,
+                    color: service.accentColor,
+                    boxShadow: `0 0 20px ${service.accentColor}20`
+                }}
             >
-                <Icon size={26} aria-hidden="true" />
+                <Icon size={28} aria-hidden="true" className="group-hover:rotate-12 transition-transform" />
             </div>
 
-            {/* Contenido */}
-            <h3 className="font-display text-xl font-bold text-wood mb-2">{service.title}</h3>
-            <p className="font-body text-sm text-wood/65 leading-relaxed mb-4">{service.description}</p>
+            {/* Contenido Premium */}
+            <h3 className="font-display text-xl font-bold text-wood-dark mb-2">{service.title}</h3>
+            <p className="font-body text-sm text-wood/70 leading-relaxed mb-4">{service.description}</p>
 
-            {/* Features */}
-            <ul className="space-y-1.5">
+            {/* Features con estilo mejorado */}
+            <ul className="space-y-2">
                 {service.features.map((feature) => (
-                    <li key={feature} className="flex items-center gap-2">
-                        <CheckCircle size={14} style={{ color: service.accentColor }} className="flex-shrink-0" aria-hidden="true" />
-                        <span className="font-body text-xs text-wood/60">{feature}</span>
+                    <li key={feature} className="flex items-center gap-2.5">
+                        <CheckCircle size={16} style={{ color: service.accentColor }} className="flex-shrink-0" aria-hidden="true" />
+                        <span className="font-body text-sm text-wood/65">{feature}</span>
                     </li>
                 ))}
             </ul>
