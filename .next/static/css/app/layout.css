@@ -893,9 +893,6 @@ video {
 .relative {
   position: relative;
 }
-.sticky {
-  position: sticky;
-}
 .-inset-1 {
   inset: -0.25rem;
 }
@@ -1097,6 +1094,9 @@ video {
 .ml-0\.5 {
   margin-left: 0.125rem;
 }
+.ml-2 {
+  margin-left: 0.5rem;
+}
 .mr-1 {
   margin-right: 0.25rem;
 }
@@ -1117,6 +1117,9 @@ video {
 }
 .mt-2\.5 {
   margin-top: 0.625rem;
+}
+.mt-3 {
+  margin-top: 0.75rem;
 }
 .mt-4 {
   margin-top: 1rem;
@@ -1204,6 +1207,9 @@ video {
 }
 .h-72 {
   height: 18rem;
+}
+.h-8 {
+  height: 2rem;
 }
 .h-80 {
   height: 20rem;
@@ -1545,6 +1551,9 @@ video {
 .border-gold\/15 {
   border-color: rgb(184 120 77 / 0.15);
 }
+.border-gold\/20 {
+  border-color: rgb(184 120 77 / 0.2);
+}
 .border-gold\/30 {
   border-color: rgb(184 120 77 / 0.3);
 }
@@ -1602,9 +1611,6 @@ video {
 .bg-black\/60 {
   background-color: rgb(0 0 0 / 0.6);
 }
-.bg-black\/85 {
-  background-color: rgb(0 0 0 / 0.85);
-}
 .bg-black\/90 {
   background-color: rgb(0 0 0 / 0.9);
 }
@@ -1615,8 +1621,18 @@ video {
   --tw-bg-opacity: 1;
   background-color: rgb(249 248 245 / var(--tw-bg-opacity, 1));
 }
+.bg-cream-dark\/30 {
+  background-color: rgb(217 208 195 / 0.3);
+}
+.bg-cream-warm {
+  --tw-bg-opacity: 1;
+  background-color: rgb(240 233 221 / var(--tw-bg-opacity, 1));
+}
 .bg-cream-warm\/95 {
   background-color: rgb(240 233 221 / 0.95);
+}
+.bg-cream\/85 {
+  background-color: rgb(249 248 245 / 0.85);
 }
 .bg-cream\/95 {
   background-color: rgb(249 248 245 / 0.95);
@@ -1630,6 +1646,9 @@ video {
 }
 .bg-gold\/15 {
   background-color: rgb(184 120 77 / 0.15);
+}
+.bg-gold\/20 {
+  background-color: rgb(184 120 77 / 0.2);
 }
 .bg-gold\/25 {
   background-color: rgb(184 120 77 / 0.25);
@@ -1823,6 +1842,10 @@ video {
 .via-gold\/30 {
   --tw-gradient-to: rgb(184 120 77 / 0)  var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), rgb(184 120 77 / 0.3) var(--tw-gradient-via-position), var(--tw-gradient-to);
+}
+.via-gold\/40 {
+  --tw-gradient-to: rgb(184 120 77 / 0)  var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), rgb(184 120 77 / 0.4) var(--tw-gradient-via-position), var(--tw-gradient-to);
 }
 .via-transparent {
   --tw-gradient-to: rgb(0 0 0 / 0)  var(--tw-gradient-to-position);
@@ -2178,9 +2201,6 @@ video {
 .text-white\/70 {
   color: rgb(255 255 255 / 0.7);
 }
-.text-white\/80 {
-  color: rgb(255 255 255 / 0.8);
-}
 .text-white\/85 {
   color: rgb(255 255 255 / 0.85);
 }
@@ -2285,12 +2305,24 @@ video {
   --tw-shadow-color: rgb(184 120 77 / 0.3);
   --tw-shadow: var(--tw-shadow-colored);
 }
+.shadow-green-900\/20 {
+  --tw-shadow-color: rgb(20 83 45 / 0.2);
+  --tw-shadow: var(--tw-shadow-colored);
+}
 .shadow-green-900\/30 {
   --tw-shadow-color: rgb(20 83 45 / 0.3);
   --tw-shadow: var(--tw-shadow-colored);
 }
 .shadow-green-900\/40 {
   --tw-shadow-color: rgb(20 83 45 / 0.4);
+  --tw-shadow: var(--tw-shadow-colored);
+}
+.shadow-wood\/10 {
+  --tw-shadow-color: rgb(61 43 31 / 0.1);
+  --tw-shadow: var(--tw-shadow-colored);
+}
+.shadow-wood\/20 {
+  --tw-shadow-color: rgb(61 43 31 / 0.2);
   --tw-shadow: var(--tw-shadow-colored);
 }
 .shadow-wood\/30 {
@@ -2317,6 +2349,10 @@ video {
   --tw-drop-shadow: drop-shadow(0 0 8px rgba(196,132,58,0.5));
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
+.drop-shadow-lg {
+  --tw-drop-shadow: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+}
 .drop-shadow-md {
   --tw-drop-shadow: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
@@ -2326,6 +2362,10 @@ video {
 }
 .backdrop-blur {
   --tw-backdrop-blur: blur(8px);
+  backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
+}
+.backdrop-blur-2xl {
+  --tw-backdrop-blur: blur(40px);
   backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
 }
 .backdrop-blur-md {
@@ -2920,9 +2960,9 @@ body {
   position: absolute;
 }
 
-.after\:bottom-0::after {
+.after\:bottom-\[-4px\]::after {
   content: var(--tw-content);
-  bottom: 0px;
+  bottom: -4px;
 }
 
 .after\:left-0::after {
@@ -2940,10 +2980,21 @@ body {
   width: 0px;
 }
 
-.after\:bg-gold::after {
+.after\:bg-gradient-to-r::after {
   content: var(--tw-content);
-  --tw-bg-opacity: 1;
-  background-color: rgb(184 120 77 / var(--tw-bg-opacity, 1));
+  background-image: linear-gradient(to right, var(--tw-gradient-stops));
+}
+
+.after\:from-gold::after {
+  content: var(--tw-content);
+  --tw-gradient-from: #B8784D var(--tw-gradient-from-position);
+  --tw-gradient-to: rgb(184 120 77 / 0) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+
+.after\:to-gold-light::after {
+  content: var(--tw-content);
+  --tw-gradient-to: #D4A060 var(--tw-gradient-to-position);
 }
 
 .after\:transition-all::after {
@@ -3018,6 +3069,10 @@ body {
   background-color: rgb(184 120 77 / var(--tw-bg-opacity, 1));
 }
 
+.hover\:bg-gold\/10:hover {
+  background-color: rgb(184 120 77 / 0.1);
+}
+
 .hover\:bg-green-400:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(74 222 128 / var(--tw-bg-opacity, 1));
@@ -3043,10 +3098,6 @@ body {
 
 .hover\:bg-white\/20:hover {
   background-color: rgb(255 255 255 / 0.2);
-}
-
-.hover\:bg-white\/5:hover {
-  background-color: rgb(255 255 255 / 0.05);
 }
 
 .hover\:bg-white\/60:hover {

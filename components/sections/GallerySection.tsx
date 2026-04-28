@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback, useEffect, useRef } from 'react'
+import { useState, useCallback, useEffect, useRef, forwardRef, memo } from 'react'
 import { motion, AnimatePresence, useInView } from 'framer-motion'
 import { ZoomIn, X, ChevronLeft, ChevronRight, Package, ChevronDown } from 'lucide-react'
 import { GALLERY_PROJECTS, GALLERY_CATEGORIES, type GalleryCategory, type GalleryProject } from '@/data/gallery'
@@ -14,12 +14,17 @@ interface GalleryCardProps {
     index: number
 }
 
-function GalleryCard({ project, onOpen, index }: GalleryCardProps) {
+// forwardRef necesario para AnimatePresence mode="popLayout" - elimina warning de React
+const GalleryCard = memo(forwardRef<HTMLElement, GalleryCardProps>(function GalleryCard(
+    { project, onOpen, index },
+    ref
+) {
     const [loaded, setLoaded] = useState(false)
     const handleOpen = useCallback(() => onOpen(project), [onOpen, project])
 
     return (
         <motion.article
+            ref={ref}
             layout
             initial={{ opacity: 0, y: 30, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -96,7 +101,7 @@ function GalleryCard({ project, onOpen, index }: GalleryCardProps) {
             </div>
         </motion.article>
     )
-}
+}))
 
 interface GalleryModalProps {
     project: GalleryProject | null
