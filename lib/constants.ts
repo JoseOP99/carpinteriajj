@@ -34,11 +34,11 @@ export const COMPANY_INFO = {
 } as const
 
 export const SEO = {
-    title: 'Carpintería JJ | Muebles a Medida en Medellín, Colombia',
+    title: 'Carpintería JJ | Muebles a Medida Premium en Medellín',
     description:
-        'Especialistas en cocinas integrales, closets personalizados, puertas y muebles a medida en Medellín. Madera sólida, MDF y aglomerados de alta calidad. +25 años de experiencia.',
+        'Carpintería artesanal premium en Medellín: cocinas integrales, closets personalizados, muebles a medida. +25 años de experiencia, +500 proyectos exitosos. Madera de alta calidad.',
     keywords:
-        'carpintería en Medellín, ebanistería El Poblado, muebles a medida Envigado, cocinas integrales Medellín, closets personalizados Medellín, puertas de madera sólida, carpintero Manrique Medellín, muebles a medida Laureles, ebanistería de autor Colombia, carpintería artesanal Antioquia',
+        'carpintería premium Medellín, muebles a medida artesanales, cocinas integrales Medellín, closets personalizados Envigado, ebanistería de autor Medellín, puertas de madera sólida, carpintero profesional Manrique, muebles bajo pedido El Poblado, carpintería artesanal Antioquia, diseño de interiores madera',
     url: 'https://carpinteriajj.com',
 } as const
 

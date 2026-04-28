@@ -52,14 +52,14 @@ export default function HeroSection() {
                         </span>
                     </motion.div>
 
-                    {/* H1 */}
+                    {/* H1 - SEO Optimized */}
                     <motion.h1
                         variants={itemVariants}
                         className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-white leading-[1.05] mt-1"
                     >
-                        Donde la madera{' '}
+                        Carpintería Artesanal{' '}
                         <br className="hidden sm:block" />
-                        <span className="text-gradient-wood">se convierte en arte</span>
+                        <span className="text-gradient-wood">Premium en Medellín</span>
                     </motion.h1>
 
                     {/* Descripción */}
