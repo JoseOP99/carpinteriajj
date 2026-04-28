@@ -2,7 +2,8 @@
 
 import { useState, useCallback, useEffect, useRef } from 'react'
 import { motion, AnimatePresence, useInView } from 'framer-motion'
-import { X, Clock, Tag } from 'lucide-react'
+import Image from 'next/image'
+import { X, Clock, Tag, ArrowRight, Sparkles } from 'lucide-react'
 import { INSPIRATION_ARTICLES, type InspirationArticle } from '@/data/inspiration'
 
 interface InspirationCardProps {
@@ -12,77 +13,116 @@ interface InspirationCardProps {
 }
 
 /**
- * InspirationCard — Tarjeta editorial con tipo diferenciado por color.
- *
- * @param {InspirationCardProps} props
- * @param {InspirationArticle} props.article - Artículo de inspiración
- * @param {(a: InspirationArticle) => void} props.onOpen - Callback al hacer clic
- * @param {number} props.index - Índice para stagger delay
+ * InspirationCard - Tarjeta editorial premium con imagen y efectos hover
  */
 function InspirationCard({ article, onOpen, index }: InspirationCardProps) {
     const handleOpen = useCallback(() => onOpen(article), [onOpen, article])
 
     return (
         <motion.article
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 50, scale: 0.95 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
             viewport={{ once: true, margin: '-50px' }}
-            transition={{ duration: 0.6, delay: index * 0.15, ease: [0.25, 0.46, 0.45, 0.94] }}
-            className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl border border-cream-dark transition-all duration-300 hover:-translate-y-1 cursor-pointer group"
+            transition={{ duration: 0.7, delay: index * 0.15, ease: [0.25, 0.46, 0.45, 0.94] }}
+            whileHover={{ y: -10 }}
+            className="group relative bg-white rounded-3xl overflow-hidden border border-cream-dark/30 cursor-pointer card-glow-premium shadow-xl hover:shadow-2xl transition-all duration-500"
             onClick={handleOpen}
             onKeyDown={(e) => e.key === 'Enter' && handleOpen()}
             tabIndex={0}
             role="button"
             aria-label={`Leer artículo: ${article.title}`}
         >
-            {/* Barra de color superior */}
+            {/* Glow effect en hover */}
             <div
-                className="h-1.5 w-full"
-                style={{ backgroundColor: article.accentColor }}
+                className="absolute -inset-1 opacity-0 group-hover:opacity-30 transition-opacity duration-500 blur-xl rounded-3xl pointer-events-none"
+                style={{
+                    background: `radial-gradient(circle at 50% 50%, ${article.accentColor}, transparent 70%)`,
+                }}
                 aria-hidden="true"
             />
 
-            {/* Header de la imagen placeholder */}
-            <div
-                className="h-48 flex items-center justify-center relative"
-                style={{
-                    background: `linear-gradient(135deg, ${article.accentColor}33, ${article.accentColor}88)`,
-                }}
-            >
-                <span className="font-display text-5xl opacity-40 text-white select-none">
-                    {article.type === 'caso-exito' ? '🏆' : article.type === 'consejo' ? '💡' : '✨'}
-                </span>
+            {/* Imagen real con overlay */}
+            <div className="relative h-56 overflow-hidden">
+                {article.imageUrl ? (
+                    <>
+                        <Image
+                            src={article.imageUrl}
+                            alt={article.title}
+                            fill
+                            className="object-cover transition-transform duration-700 group-hover:scale-110"
+                            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                            quality={80}
+                        />
+                        {/* Gradient overlay */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                        <div
+                            className="absolute inset-0 opacity-30 mix-blend-multiply"
+                            style={{
+                                background: `linear-gradient(135deg, ${article.accentColor}, transparent)`,
+                            }}
+                        />
+                    </>
+                ) : (
+                    <div
+                        className="w-full h-full flex items-center justify-center"
+                        style={{
+                            background: `linear-gradient(135deg, ${article.accentColor}33, ${article.accentColor}88)`,
+                        }}
+                    >
+                        <span className="font-display text-6xl opacity-50 text-white select-none">
+                            {article.type === 'caso-exito' ? '🏆' : article.type === 'consejo' ? '💡' : '✨'}
+                        </span>
+                    </div>
+                )}
+
+                {/* Badge premium */}
                 <span
-                    className="absolute top-4 left-4 font-body text-xs font-bold uppercase tracking-widest text-white/80 bg-black/20 px-3 py-1 rounded-full backdrop-blur-sm"
+                    className="absolute top-4 left-4 inline-flex items-center gap-1.5 font-body text-xs font-bold uppercase tracking-widest text-white px-3 py-1.5 rounded-full backdrop-blur-md border border-white/30 shadow-lg"
+                    style={{ backgroundColor: `${article.accentColor}E6` }}
                 >
                     {article.typeLabel}
                 </span>
+
+                {/* Read time badge */}
+                <span className="absolute top-4 right-4 inline-flex items-center gap-1 font-body text-[10px] font-semibold text-white px-2.5 py-1 rounded-full backdrop-blur-md bg-black/40 border border-white/20">
+                    <Clock size={10} />
+                    {article.readTime}
+                </span>
+
+                {/* Borde animado superior */}
+                <div
+                    className="absolute top-0 left-0 right-0 h-1.5 origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-700"
+                    style={{
+                        background: `linear-gradient(90deg, ${article.accentColor}, ${article.accentColor}80, ${article.accentColor})`,
+                        boxShadow: `0 0 20px ${article.accentColor}80`,
+                    }}
+                    aria-hidden="true"
+                />
             </div>
 
             {/* Contenido */}
-            <div className="p-6">
-                <h3 className="font-display text-xl font-bold text-wood mb-3 leading-tight group-hover:text-gold transition-colors duration-300">
+            <div className="relative p-6 z-10">
+                <h3 className="font-display text-xl md:text-2xl font-bold text-wood-dark mb-3 leading-tight group-hover:text-gold transition-colors duration-300">
                     {article.title}
                 </h3>
-                <p className="font-body text-sm text-wood/65 leading-relaxed mb-4">{article.summary}</p>
+                <p className="font-body text-sm text-wood/65 leading-relaxed mb-5 line-clamp-3">
+                    {article.summary}
+                </p>
 
-                <div className="flex items-center justify-between">
+                {/* Footer card */}
+                <div className="flex items-center justify-between pt-4 border-t border-cream-dark/30">
                     <div className="flex items-center gap-1.5">
                         <Tag size={13} style={{ color: article.accentColor }} aria-hidden="true" />
-                        <span className="font-body text-xs text-cream/50">{article.tag}</span>
+                        <span className="font-body text-xs text-wood/50 font-medium">{article.tag}</span>
                     </div>
-                    <div className="flex items-center gap-1.5">
-                        <Clock size={13} className="text-cream/40" aria-hidden="true" />
-                        <span className="font-body text-xs text-wood/50">{article.readTime}</span>
-                    </div>
-                </div>
-
-                <div
-                    className="mt-4 font-body text-sm font-medium flex items-center gap-1 transition-all duration-300"
-                    style={{ color: article.accentColor }}
-                >
-                    Leer más
-                    <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+                    <motion.div
+                        whileHover={{ x: 5 }}
+                        className="font-body text-sm font-semibold flex items-center gap-1.5 transition-all"
+                        style={{ color: article.accentColor }}
+                    >
+                        <span>Leer más</span>
+                        <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
+                    </motion.div>
                 </div>
             </div>
         </motion.article>
@@ -96,13 +136,6 @@ interface InspirationModalProps {
 
 /**
  * `InspirationModal`
- *
- * Modal emergente que muestra el contenido rico (HTML seguro) del artículo seleccionado.
- * Bloquea el scroll del `<body>` mientras está abierto.
- *
- * @component
- * @param {InspirationModalProps} props
- * @returns React.JSX.Element
  */
 function InspirationModal({ article, onClose }: InspirationModalProps) {
     useEffect(() => {
@@ -130,54 +163,92 @@ function InspirationModal({ article, onClose }: InspirationModalProps) {
                     aria-modal="true"
                     aria-label={`Artículo: ${article.title}`}
                 >
-                    <div className="absolute inset-0 bg-wood-dark/85 backdrop-blur-sm" onClick={onClose} aria-hidden="true" />
+                    <div
+                        className="absolute inset-0 bg-wood-dark/90 backdrop-blur-md"
+                        onClick={onClose}
+                        aria-hidden="true"
+                    />
 
                     <motion.div
-                        initial={{ scale: 0.92, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        exit={{ scale: 0.92, opacity: 0 }}
+                        initial={{ scale: 0.9, opacity: 0, y: 20 }}
+                        animate={{ scale: 1, opacity: 1, y: 0 }}
+                        exit={{ scale: 0.9, opacity: 0, y: 20 }}
                         transition={{ type: 'spring', stiffness: 300, damping: 26 }}
-                        className="relative z-10 bg-white rounded-2xl max-w-2xl w-full max-h-[85vh] overflow-y-auto shadow-2xl"
+                        className="relative z-10 bg-white rounded-3xl max-w-3xl w-full max-h-[90vh] overflow-hidden shadow-2xl"
                     >
-                        {/* Header */}
-                        <div
-                            className="p-8 pb-6"
-                            style={{
-                                background: `linear-gradient(135deg, ${article.accentColor}22, transparent)`,
-                            }}
-                        >
-                            <span className="font-body text-xs font-bold uppercase tracking-widest" style={{ color: article.accentColor }}>
-                                {article.typeLabel}
-                            </span>
-                            <h2 className="font-display text-2xl md:text-3xl font-bold text-wood mt-3 leading-tight">
-                                {article.title}
-                            </h2>
-                            <div className="flex items-center gap-4 mt-3">
-                                <span className="font-body text-xs text-wood/50">{article.tag}</span>
-                                <span className="text-wood/30">·</span>
-                                <span className="font-body text-xs text-wood/50">Lectura: {article.readTime}</span>
+                        {/* Header con imagen */}
+                        {article.imageUrl && (
+                            <div className="relative h-64 overflow-hidden">
+                                <Image
+                                    src={article.imageUrl}
+                                    alt={article.title}
+                                    fill
+                                    className="object-cover"
+                                    sizes="100vw"
+                                    quality={90}
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                                <div className="absolute bottom-6 left-8 right-8">
+                                    <span
+                                        className="inline-block font-body text-xs font-bold uppercase tracking-widest text-white px-3 py-1.5 rounded-full mb-3"
+                                        style={{ backgroundColor: article.accentColor }}
+                                    >
+                                        {article.typeLabel}
+                                    </span>
+                                    <h2 className="font-display text-2xl md:text-3xl lg:text-4xl font-bold text-white leading-tight">
+                                        {article.title}
+                                    </h2>
+                                </div>
                             </div>
-                        </div>
+                        )}
 
-                        {/* Contenido (renderizado como texto pre-formateado) */}
-                        <div className="px-8 pb-8">
-                            <div
-                                className="font-body text-sm text-cream/75 leading-relaxed space-y-4"
-                                dangerouslySetInnerHTML={{
-                                    __html: article.content
-                                        .replace(/\*\*(.*?)\*\*/g, '<strong class="text-wood font-semibold">$1</strong>')
-                                        .replace(/\*(.*?)\*/g, '<em>$1</em>')
-                                        .replace(/^> (.*)/gm, '<blockquote class="border-l-4 pl-4 italic text-wood/60" style="border-color: ' + article.accentColor + '">$1</blockquote>')
-                                        .replace(/\n\n/g, '</p><p class="mt-4">')
-                                        .replace(/^/, '<p>')
-                                        .replace(/$/, '</p>'),
-                                }}
-                            />
+                        {/* Contenido scrollable */}
+                        <div className="overflow-y-auto max-h-[60vh]">
+                            <div className="p-8">
+                                {!article.imageUrl && (
+                                    <div className="mb-6">
+                                        <span
+                                            className="inline-block font-body text-xs font-bold uppercase tracking-widest text-white px-3 py-1.5 rounded-full mb-3"
+                                            style={{ backgroundColor: article.accentColor }}
+                                        >
+                                            {article.typeLabel}
+                                        </span>
+                                        <h2 className="font-display text-2xl md:text-3xl font-bold text-wood-dark leading-tight">
+                                            {article.title}
+                                        </h2>
+                                    </div>
+                                )}
+
+                                <div className="flex items-center gap-4 mb-6 pb-6 border-b border-cream-dark/30">
+                                    <span className="font-body text-xs text-wood/50">
+                                        <Tag size={12} className="inline mr-1" />
+                                        {article.tag}
+                                    </span>
+                                    <span className="text-wood/30">·</span>
+                                    <span className="font-body text-xs text-wood/50">
+                                        <Clock size={12} className="inline mr-1" />
+                                        Lectura: {article.readTime}
+                                    </span>
+                                </div>
+
+                                <div
+                                    className="font-body text-base text-wood/80 leading-relaxed space-y-4 prose-custom"
+                                    dangerouslySetInnerHTML={{
+                                        __html: article.content
+                                            .replace(/\*\*(.*?)\*\*/g, '<strong class="text-wood-dark font-semibold">$1</strong>')
+                                            .replace(/\*(.*?)\*/g, '<em class="text-gold">$1</em>')
+                                            .replace(/^> (.*)/gm, `<blockquote class="border-l-4 pl-4 italic text-wood/70 my-4" style="border-color: ${article.accentColor}">$1</blockquote>`)
+                                            .replace(/\n\n/g, '</p><p class="mt-4">')
+                                            .replace(/^/, '<p>')
+                                            .replace(/$/, '</p>'),
+                                    }}
+                                />
+                            </div>
                         </div>
 
                         <button
                             onClick={onClose}
-                            className="absolute top-4 right-4 w-9 h-9 bg-wood/10 hover:bg-wood/20 text-wood rounded-full flex items-center justify-center transition-colors focus-ring"
+                            className="absolute top-4 right-4 w-10 h-10 bg-white/90 hover:bg-white text-wood-dark rounded-full flex items-center justify-center transition-all duration-300 focus-ring shadow-lg backdrop-blur-md hover:scale-110 z-20"
                             aria-label="Cerrar artículo"
                         >
                             <X size={18} />
@@ -191,12 +262,6 @@ function InspirationModal({ article, onClose }: InspirationModalProps) {
 
 /**
  * `InspirationSection`
- *
- * Muestra una tarjeta horizontal por cada artículo o caso de éxito, y maneja el
- * estado global del modal para leer el artículo a pantalla completa.
- *
- * @component
- * @returns React.JSX.Element
  */
 export default function InspirationSection() {
     const [selectedArticle, setSelectedArticle] = useState<InspirationArticle | null>(null)
@@ -212,26 +277,49 @@ export default function InspirationSection() {
     }, [])
 
     return (
-        <section id="inspiracion" className="py-20 md:py-32 bg-cream" aria-label="Inspiración y casos de éxito">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section
+            id="inspiracion"
+            className="relative py-24 md:py-36 overflow-hidden"
+            aria-label="Inspiración y casos de éxito"
+        >
+            {/* Background con efectos */}
+            <div className="absolute inset-0 bg-gradient-to-br from-cream via-cream-warm to-cream" />
+            <div className="absolute inset-0 mesh-gradient opacity-40" />
+            <div className="absolute inset-0 grid-pattern opacity-30" />
+
+            {/* Orbes decorativos */}
+            <div className="absolute top-40 left-20 w-72 h-72 rounded-full bg-gold/10 blur-3xl" />
+            <div className="absolute bottom-40 right-20 w-96 h-96 rounded-full bg-wood/8 blur-3xl" />
+
+            <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <motion.div
                     ref={ref}
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 30 }}
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ duration: 0.6 }}
+                    transition={{ duration: 0.8 }}
                     className="text-center mb-16"
                 >
-                    <span className="section-badge mb-4">Ideas & Consejos</span>
-                    <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-wood mt-4">
+                    <motion.span
+                        initial={{ opacity: 0, scale: 0.5 }}
+                        animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                        transition={{ duration: 0.6, delay: 0.2 }}
+                        className="section-badge mb-4 inline-block"
+                    >
+                        <Sparkles size={12} className="inline mr-1" /> Ideas & Consejos
+                    </motion.span>
+                    <h2 className="font-display text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-wood-dark mt-4">
                         Inspiración y{' '}
-                        <span className="text-gradient-wood">Casos de Éxito</span>
+                        <span className="text-shimmer-gold">Casos de Éxito</span>
                     </h2>
-                    <p className="font-body text-wood/60 max-w-xl mx-auto mt-4 text-base">
-                        Aprende, inspírate y descubre cómo transformamos espacios reales en Medellín.
+                    <div className="section-divider w-32 mx-auto my-6" />
+                    <p className="font-body text-wood/70 max-w-2xl mx-auto mt-4 text-base md:text-lg leading-relaxed">
+                        Aprende, inspírate y descubre cómo{' '}
+                        <span className="text-gold font-semibold">transformamos espacios reales</span>{' '}
+                        en Medellín.
                     </p>
                 </motion.div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {INSPIRATION_ARTICLES.map((article, index) => (
                         <InspirationCard
                             key={article.id}

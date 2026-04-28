@@ -14,6 +14,7 @@ export interface InspirationArticle {
     tag: string
     accentColor: string
     readTime: string
+    imageUrl?: string
 }
 
 export const INSPIRATION_ARTICLES: InspirationArticle[] = [
@@ -34,6 +35,7 @@ export const INSPIRATION_ARTICLES: InspirationArticle[] = [
         tag: 'Cocinas · Medellín',
         accentColor: '#C4843A',
         readTime: '3 min',
+        imageUrl: '/images/gallery/cocinas/cocina (5).png.png',
     },
     {
         id: 'mdf-vs-madera-consejo',
@@ -60,6 +62,7 @@ export const INSPIRATION_ARTICLES: InspirationArticle[] = [
         tag: 'Materiales · Guía',
         accentColor: '#2D3A3A',
         readTime: '4 min',
+        imageUrl: '/images/gallery/closets/closet (5).png.png',
     },
     {
         id: 'tendencias-2025',
@@ -86,5 +89,6 @@ Closet en MDF verde musgo mate + tiradores en madera natural + iluminación LED 
         tag: 'Diseño · 2025',
         accentColor: '#6B4C3B',
         readTime: '5 min',
+        imageUrl: '/images/gallery/muebles/mueble (3).png.png',
     },
 ]

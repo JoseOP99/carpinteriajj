@@ -21,21 +21,30 @@ function GalleryCard({ project, onOpen, index }: GalleryCardProps) {
     return (
         <motion.article
             layout
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 8 }}
+            initial={{ opacity: 0, y: 30, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 8, scale: 0.95 }}
             transition={{
-                duration: 0.55,
-                delay: (index % PAGE_SIZE) * 0.04,
+                duration: 0.6,
+                delay: (index % PAGE_SIZE) * 0.06,
                 ease: [0.16, 1, 0.3, 1],
             }}
-            className="relative group aspect-square rounded-2xl overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl transition-shadow duration-500 bg-stone-800"
+            whileHover={{ y: -8 }}
+            className="relative group aspect-square rounded-3xl overflow-hidden cursor-pointer shadow-xl hover:shadow-2xl hover:shadow-gold/30 transition-all duration-500 bg-stone-800 border-2 border-transparent hover:border-gold/50"
             onClick={handleOpen}
             onKeyDown={(e) => e.key === 'Enter' && handleOpen()}
             tabIndex={0}
             role="button"
             aria-label={`Ver proyecto: ${project.title}`}
         >
+            {/* Glow effect en hover */}
+            <div
+                className="absolute -inset-1 opacity-0 group-hover:opacity-50 transition-opacity duration-500 blur-xl rounded-3xl pointer-events-none"
+                style={{
+                    background: `radial-gradient(circle at 50% 50%, ${project.gradientFrom}, transparent 70%)`,
+                }}
+                aria-hidden="true"
+            />
             {/* Skeleton placeholder con color cálido */}
             {!loaded && (
                 <div
@@ -257,48 +266,71 @@ export default function GallerySection() {
     }, [])
 
     return (
-        <section id="galeria" className="py-20 md:py-32 bg-cream-warm" aria-label="Galería de proyectos">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                {/* Header */}
+        <section id="galeria" className="relative py-24 md:py-36 overflow-hidden" aria-label="Galería de proyectos">
+            {/* Background con efectos */}
+            <div className="absolute inset-0 bg-gradient-to-br from-cream-warm via-cream to-cream-light" />
+            <div className="absolute inset-0 mesh-gradient opacity-50" />
+            <div className="absolute inset-0 grid-pattern opacity-30" />
+
+            {/* Orbes decorativos */}
+            <div className="absolute top-20 right-20 w-96 h-96 rounded-full bg-gold/10 blur-3xl" />
+            <div className="absolute bottom-20 left-20 w-80 h-80 rounded-full bg-wood/10 blur-3xl" />
+
+            <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                {/* Header Premium */}
                 <motion.div
                     ref={ref}
-                    initial={{ opacity: 0, y: 24 }}
+                    initial={{ opacity: 0, y: 30 }}
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ duration: 0.6 }}
+                    transition={{ duration: 0.8 }}
                     className="text-center mb-12"
                 >
-                    <span className="section-badge mb-4">Nuestro trabajo</span>
-                    <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-wood mt-4">
+                    <motion.span
+                        initial={{ opacity: 0, scale: 0.5 }}
+                        animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                        transition={{ duration: 0.6, delay: 0.2 }}
+                        className="section-badge mb-4 inline-block"
+                    >
+                        <Package size={12} className="inline mr-1" /> Nuestro trabajo
+                    </motion.span>
+                    <h2 className="font-display text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-wood-dark mt-4">
                         Galería de{' '}
-                        <span className="text-gradient-wood">Proyectos</span>
+                        <span className="text-shimmer-gold">Proyectos</span>
                     </h2>
-                    <p className="font-body text-wood/60 max-w-xl mx-auto mt-4 text-base leading-relaxed">
-                        Cada proyecto cuenta una historia. Explora nuestra selección de trabajos terminados.
+                    <div className="section-divider w-32 mx-auto my-6" />
+                    <p className="font-body text-wood/70 max-w-2xl mx-auto mt-4 text-base md:text-lg leading-relaxed">
+                        Cada proyecto cuenta una historia. Explora nuestra selección de{' '}
+                        <span className="text-gold font-semibold">trabajos terminados</span> en Medellín.
                     </p>
                 </motion.div>
 
-                {/* Filtros */}
+                {/* Filtros Premium con glassmorphism */}
                 <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
                     transition={{ duration: 0.5, delay: 0.15 }}
-                    className="flex flex-wrap justify-center gap-2 mb-10"
+                    className="flex flex-wrap justify-center gap-2.5 mb-12"
                     role="group"
                     aria-label="Filtros de categoría"
                 >
-                    {allCategories.map(({ id, label }) => (
-                        <button
+                    {allCategories.map(({ id, label }, idx) => (
+                        <motion.button
                             key={id}
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={isInView ? { opacity: 1, y: 0 } : {}}
+                            transition={{ duration: 0.4, delay: 0.2 + idx * 0.05 }}
+                            whileHover={{ scale: 1.05, y: -2 }}
+                            whileTap={{ scale: 0.95 }}
                             onClick={() => handleCategoryChange(id as GalleryCategory)}
-                            className={`font-body text-sm font-medium px-5 py-2.5 rounded-full border transition-all duration-300 focus-ring ${
+                            className={`font-body text-sm font-semibold px-6 py-3 rounded-full border-2 transition-all duration-300 focus-ring backdrop-blur-md ${
                                 activeCategory === id
-                                    ? 'bg-wood text-cream border-wood shadow-lg shadow-wood/20'
-                                    : 'border-wood/25 text-wood/65 hover:border-wood hover:text-wood bg-white/60 backdrop-blur-sm'
+                                    ? 'bg-gradient-to-r from-wood-dark to-wood text-cream border-gold shadow-xl shadow-wood/30'
+                                    : 'border-wood/25 text-wood/70 hover:border-gold hover:text-gold bg-white/60 hover:bg-white/80 hover:shadow-lg'
                             }`}
                             aria-pressed={activeCategory === id}
                         >
                             {label}
-                        </button>
+                        </motion.button>
                     ))}
                 </motion.div>
 

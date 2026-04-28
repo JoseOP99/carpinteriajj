@@ -530,6 +530,42 @@ body {
   animation: reveal-slide 1s cubic-bezier(0.77, 0, 0.18, 1) forwards;
 }
 
+/* Glass float animation - para cards flotantes */
+@keyframes glassFloat {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+/* Line clamp para textos truncados */
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Prose custom para markdown */
+.prose-custom strong {
+  color: rgb(30, 21, 16);
+  font-weight: 600;
+}
+
+.prose-custom em {
+  color: rgb(196, 132, 58);
+  font-style: italic;
+}
+
+.prose-custom blockquote {
+  background: rgba(196, 132, 58, 0.05);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin: 1rem 0;
+}
+
 /* Magnetic button effect base */
 .btn-magnetic {
   position: relative;

@@ -1,0 +1,26 @@
+{
+  "name": "Carpintería JJ - Muebles a Medida en Medellín",
+  "short_name": "Carpintería JJ",
+  "description": "Carpintería artesanal premium en Medellín: cocinas integrales, closets personalizados y muebles a medida con +25 años de experiencia.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1B2424",
+  "theme_color": "#C4843A",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/Logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/Logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["business", "lifestyle", "shopping"],
+  "lang": "es-CO"
+}

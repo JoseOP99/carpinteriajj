@@ -31,17 +31,47 @@ export const metadata: Metadata = {
         address: false,
         telephone: false,
     },
+    icons: {
+        icon: [
+            { url: '/Logo.png', sizes: '32x32', type: 'image/png' },
+            { url: '/Logo.png', sizes: '192x192', type: 'image/png' },
+        ],
+        apple: [
+            { url: '/Logo.png', sizes: '180x180', type: 'image/png' },
+        ],
+        shortcut: '/Logo.png',
+    },
+    manifest: '/manifest.json',
     openGraph: {
         type: 'website',
         locale: 'es_CO',
-        title: 'Carpintería JJ | Muebles a Medida en Medellín',
+        title: 'Carpintería JJ | Muebles a Medida Premium en Medellín',
         description: SEO.description,
         siteName: 'Carpintería JJ',
         images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Carpintería JJ – Muebles a medida en Medellín, Colombia' }],
         url: SEO.url,
     },
+    twitter: {
+        card: 'summary_large_image',
+        title: SEO.title,
+        description: SEO.description,
+        images: ['/og-image.png'],
+    },
     alternates: { canonical: SEO.url },
-    robots: { index: true, follow: true },
+    robots: {
+        index: true,
+        follow: true,
+        googleBot: {
+            index: true,
+            follow: true,
+            'max-video-preview': -1,
+            'max-image-preview': 'large',
+            'max-snippet': -1,
+        },
+    },
+    verification: {
+        google: 'your-google-verification-code',
+    },
 }
 
 /**
