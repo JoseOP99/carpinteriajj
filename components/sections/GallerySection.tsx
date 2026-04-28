@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useCallback, useEffect, useRef, forwardRef, memo } from 'react'
+import Image from 'next/image'
 import { motion, AnimatePresence, useInView } from 'framer-motion'
 import { ZoomIn, X, ChevronLeft, ChevronRight, Package, ChevronDown } from 'lucide-react'
 import { GALLERY_PROJECTS, GALLERY_CATEGORIES, type GalleryCategory, type GalleryProject } from '@/data/gallery'
@@ -60,15 +61,17 @@ const GalleryCard = memo(forwardRef<HTMLElement, GalleryCardProps>(function Gall
                 </div>
             )}
 
-            {/* Imagen */}
+            {/* Imagen optimizada con next/image */}
             {project.imageUrl ? (
-                <img
+                <Image
                     src={project.imageUrl}
                     alt={project.title}
+                    fill
+                    sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                    quality={65}
                     loading="lazy"
-                    decoding="async"
                     onLoad={() => setLoaded(true)}
-                    className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 group-hover:scale-110 ${
+                    className={`object-cover transition-all duration-700 group-hover:scale-110 ${
                         loaded ? 'opacity-100' : 'opacity-0'
                     }`}
                 />

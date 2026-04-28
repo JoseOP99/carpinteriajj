@@ -14,16 +14,14 @@ const VALUES = [
     'Garantía en materiales y acabados',
 ]
 
-// Trabajos destacados (rota imágenes hero)
+// Trabajos destacados (usa imágenes de galería - mucho más livianas que /hero.png ~1.5MB c/u)
 const WORK_IMAGES = [
-    { src: '/hero.png', alt: 'Cocina integral artesanal en Medellín' },
-    { src: '/hero (2).png', alt: 'Mueble a medida elegante de Carpintería JJ' },
-    { src: '/hero (3).png', alt: 'Closet personalizado en madera premium' },
-    { src: '/hero (4).png', alt: 'Detalle de carpintería artesanal' },
-    { src: '/hero (5).png', alt: 'Diseño de interiores con muebles a medida' },
-    { src: '/hero (6).png', alt: 'Trabajo de carpintería profesional' },
-    { src: '/hero (7).png', alt: 'Muebles premium para hogares' },
-    { src: '/hero (8).png', alt: 'Acabados de calidad Carpintería JJ' },
+    { src: '/images/gallery/cocinas/cocina (5).png.png', alt: 'Cocina integral artesanal en Medellín' },
+    { src: '/images/gallery/closets/closet (5).png.png', alt: 'Closet personalizado en madera premium' },
+    { src: '/images/gallery/muebles/mueble (3).png.png', alt: 'Mueble a medida elegante de Carpintería JJ' },
+    { src: '/images/gallery/cocinas/cocina (10).png.png', alt: 'Diseño de cocinas en Medellín' },
+    { src: '/images/gallery/closets/closet (10).png.png', alt: 'Closet con divisiones personalizadas' },
+    { src: '/images/gallery/muebles/muebleCocina.png.png', alt: 'Mueble de cocina artesanal' },
 ]
 
 const containerVariants = {
@@ -48,13 +46,14 @@ export default function AboutSection() {
     const isInView = useInView(ref, { once: true, margin: '-80px' })
     const [currentImage, setCurrentImage] = useState(0)
 
-    // Crossfade automático entre trabajos
+    // Crossfade automático entre trabajos - solo si está visible (ahorra CPU)
     useEffect(() => {
+        if (!isInView) return
         const timer = setInterval(() => {
             setCurrentImage((prev) => (prev + 1) % WORK_IMAGES.length)
-        }, 4000)
+        }, 5000) // 5s para mejor performance
         return () => clearInterval(timer)
-    }, [])
+    }, [isInView])
 
     return (
         <section
@@ -179,8 +178,8 @@ export default function AboutSection() {
                                             fill
                                             className="object-cover object-center"
                                             sizes="(max-width: 1024px) 100vw, 45vw"
-                                            quality={85}
-                                            priority={currentImage === 0}
+                                            quality={70}
+                                            loading="lazy"
                                         />
                                     </motion.div>
                                 </AnimatePresence>

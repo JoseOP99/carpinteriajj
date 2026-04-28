@@ -208,8 +208,19 @@ body {
     radial-gradient(at 80% 30%, rgba(139, 99, 85, 0.12) 0px, transparent 50%),
     radial-gradient(at 50% 70%, rgba(212, 160, 96, 0.10) 0px, transparent 50%),
     radial-gradient(at 20% 80%, rgba(184, 120, 77, 0.08) 0px, transparent 50%);
-  background-size: 200% 200%;
-  animation: meshShift 20s ease-in-out infinite;
+  /* Animación opcional - desactivada para mejor performance */
+  /* background-size: 200% 200%;
+  animation: meshShift 20s ease-in-out infinite; */
+}
+
+/* Reducir motion para usuarios que lo prefieren */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .orb { display: none; }
 }
 
 /* Grid Pattern sutil (tipo blueprint) */
@@ -242,13 +253,14 @@ body {
   will-change: transform;
 }
 
+/* Orbes simplificados - sin animation para mejor performance */
 .orb-1 {
   width: 400px;
   height: 400px;
   background: radial-gradient(circle, rgba(196, 132, 58, 0.6), transparent 70%);
   top: 10%;
   left: 10%;
-  animation: float-orb 18s ease-in-out infinite;
+  /* animation: float-orb 18s ease-in-out infinite; */
 }
 
 .orb-2 {
@@ -257,7 +269,7 @@ body {
   background: radial-gradient(circle, rgba(139, 99, 85, 0.5), transparent 70%);
   top: 50%;
   right: 5%;
-  animation: float-orb 22s ease-in-out infinite reverse;
+  /* animation: float-orb 22s ease-in-out infinite reverse; */
 }
 
 .orb-3 {
@@ -266,7 +278,7 @@ body {
   background: radial-gradient(circle, rgba(212, 160, 96, 0.4), transparent 70%);
   bottom: 10%;
   left: 30%;
-  animation: float-orb 25s ease-in-out infinite;
+  /* animation: float-orb 25s ease-in-out infinite; */
 }
 
 /* Texto con shimmer dorado (efecto luxury) */
